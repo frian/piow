@@ -1,0 +1,15 @@
+# Symfony directories
+vendor/*
+var/*
+
+# app files
+web/images/
+#compass
+web/.sass-cache/
+# Configuration files
+
+# eclipse fjles
+.buildpath
+.project
+.settings/
+
