@@ -3,7 +3,7 @@ vendor/*
 var/*
 
 # app files
-web/images/
+web/images/*
 #compass
 web/.sass-cache/
 # Configuration files
