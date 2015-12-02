@@ -1,9 +1,7 @@
 $(function() {
 
-    console.log('loaded');
-
     size();
-    
+
     $(window).resize(function() {
         size();
     });
@@ -16,15 +14,15 @@ function size() {
 
     var width = $(window).width();
     var height = $(window).height();
-    
-    var picPerRow = parseInt( width / previewWidth );
-    
+
+    var picPerRow = parseInt( width / previewWidth ) + 1;
+
     previewWidth = parseInt( width / picPerRow );
 
     $('img').css( 'width' , previewWidth );
 
-    $('img').css( 'display' , 'block' );
-    
+    $('img').css( 'opacity' , 1 );
+
     var margin = width - ( picPerRow * previewWidth );
 
     var leftMargin = parseInt( margin / 2 );

@@ -7,15 +7,15 @@
 
 body {
     width : 100%;
-    background-color : black;
+    background-color : white;
 }
 
 img {
     float : left;
-    display : none;
+    opacity : 0;
+    width : 150px;
 }
 
 #frame {
     display : inline-block;
-    background-color : black;
 }

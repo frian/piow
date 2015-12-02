@@ -70,17 +70,17 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 /* line 8, ../sass/screen.scss */
 body {
   width: 100%;
-  background-color: black;
+  background-color: white;
 }
 
 /* line 13, ../sass/screen.scss */
 img {
   float: left;
-  display: none;
+  opacity: 0;
+  width: 150px;
 }
 
-/* line 18, ../sass/screen.scss */
+/* line 19, ../sass/screen.scss */
 #frame {
   display: inline-block;
-  background-color: black;
 }
