@@ -77,11 +77,10 @@ body {
 /* line 14, ../sass/screen.scss */
 img {
   float: left;
-  /*     opacity : 0; */
   width: 150px;
 }
 
-/* line 20, ../sass/screen.scss */
+/* line 19, ../sass/screen.scss */
 #frame {
   display: inline-block;
 }

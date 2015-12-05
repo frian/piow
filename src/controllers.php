@@ -28,8 +28,6 @@ $app->get('/{page}/{numpics}', function($page, $numpics) use ($app, $rootDir, $i
 	
 	$previews = array_slice($previews, $offset, $numpics);
 
-// 	return $app['twig']->render('pics.twig', array( 'previews' => $previews, 'imagesdir' => $imagesDir ));
-
 	return new JsonResponse($previews);
 });
 
