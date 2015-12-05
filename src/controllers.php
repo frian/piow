@@ -9,17 +9,31 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $app->get('/', function() use ($app, $rootDir, $imagesDir) {
 
+    return $app['twig']->render('index.twig', array());
+})
+->bind('home');
+
+
+$app->get('/{page}/{numpics}', function($page, $numpics) use ($app, $rootDir, $imagesDir) {
+
 	$imagesBasePath = $rootDir.$imagesDir;
 
 	if (!is_dir($imagesBasePath)) {
 		return $app['twig']->render('errors/config.twig');
 	}
 
+	$offset = ($page - 1) * $numpics;
+	
 	$previews = preg_grep('/^prev-/', scandir($imagesBasePath));
+	
+	$previews = array_slice($previews, $offset, $numpics);
 
-    return $app['twig']->render('index.twig', array( 'previews' => $previews, 'imagesdir' => $imagesDir ));
-})
-->bind('home');
+// 	return $app['twig']->render('pics.twig', array( 'previews' => $previews, 'imagesdir' => $imagesDir ));
+
+	return new JsonResponse($previews);
+});
+
+
 
 $app->error(function (\Exception $e, $code) use ($app) {
 

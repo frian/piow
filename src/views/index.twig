@@ -2,8 +2,6 @@
 
 {% block content %}
 <div id="frame">
-{% for preview in previews %}
-	<img src="{{ imagesdir }}{{ preview }}">
-{% endfor %}
+	{% include 'pics.twig' %}
 </div>
 {% endblock %}
