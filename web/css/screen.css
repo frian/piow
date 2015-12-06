@@ -78,9 +78,11 @@ body {
 img {
   float: left;
   width: 150px;
+  /*     opacity : 0; */
 }
 
-/* line 19, ../sass/screen.scss */
+/* line 22, ../sass/screen.scss */
 #frame {
+  /*     border : 1px solid red; */
   display: inline-block;
 }

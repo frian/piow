@@ -1,7 +1,5 @@
 $(function() {
 
-    console.log('started');
-
     var done = 0;
     var page = 1;
     
@@ -14,10 +12,16 @@ $(function() {
     
     window.onscroll = function(ev) {
         if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-          if (done) {
-              console.log('done');
-          }
-          else {
+          if ( !done) {
+              
+              var height = $('#frame').height() + $(window).height();
+              
+              $('#frame').css( 'height', height );
+              
+              setTimeout(function(){
+                  window.scrollBy(0,$(window).height() - Math.ceil( previewWidth * 0.75 ));
+              },100);
+              
               done = loadPics(page, numPics, previewWidth, done);
               page++;
           }
@@ -78,13 +82,14 @@ function loadPics(page, numPics, previewWidth, done) {
         url: url,
         type: "get",
         async: false,
+        cache : false,
         success: function(data){
 
           if ( data.length < numPics) {
               done = 1;
           }
 
-          var time = 500;
+          var time = 100;
 
           $.each( data , function( k, v ) {
 
