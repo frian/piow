@@ -21,5 +21,13 @@ img {
 
 #frame {
 /*     border : 1px solid red; */
-    display : inline-block;
+/*     display : inline-block; */
+}
+
+.scrollbar-measure {
+	width: 100px;
+	height: 100px;
+	overflow: scroll;
+	position: absolute;
+	top: -9999px;
 }

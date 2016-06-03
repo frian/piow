@@ -13,3 +13,4 @@ web/.sass-cache/
 .project
 .settings/
 
+/vendor/
