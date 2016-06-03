@@ -149,3 +149,5 @@ function getGridInfos(width, height) {
 
 	return [ picsPerRow, picsPerCol, previewWidth, previewHeight ];
 }
+
+// eof

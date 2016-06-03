@@ -14,14 +14,6 @@ body {
 img {
     float : left;
     width : 150px;
-/*     opacity : 0; */
-}
-
-
-
-#frame {
-/*     border : 1px solid red; */
-/*     display : inline-block; */
 }
 
 .scrollbar-measure {
@@ -31,3 +23,5 @@ img {
 	position: absolute;
 	top: -9999px;
 }
+
+h1 { text-align : center }

@@ -78,20 +78,18 @@ body {
 img {
   float: left;
   width: 150px;
-  /*     opacity : 0; */
 }
 
-/* line 22, ../sass/screen.scss */
-#frame {
-  /*     border : 1px solid red; */
-  /*     display : inline-block; */
-}
-
-/* line 27, ../sass/screen.scss */
+/* line 19, ../sass/screen.scss */
 .scrollbar-measure {
   width: 100px;
   height: 100px;
   overflow: scroll;
   position: absolute;
   top: -9999px;
+}
+
+/* line 27, ../sass/screen.scss */
+h1 {
+  text-align: center;
 }

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title> {% block title %}{% endblock %}</title>
 	{% block stylesheets %}
 	<link href="/css/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
@@ -11,6 +13,9 @@
 	<script src="/js/script.js"></script>
 </head>
 <body>
+
+	<noscript><h1>Your browser does not support JavaScript!</h1></noscript>
+
 	{% block content %}{% endblock %}
 	{% block javascripts %}{% endblock %}
 </body>
