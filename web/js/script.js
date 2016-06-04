@@ -96,13 +96,44 @@ function loadPics(page, numPics, previewWidth, done) {
 
 				setTimeout(function() {
 
-					var img = $('<img />', {
-						src : '/images/' + v,
-						style : 'width:' + previewWidth
-					});
+					
+				    var imgPath = '/images/' + v;
+				    var img = new Image();
+				    img.src = imgPath;
 
-					img.css('width', previewWidth);
-					img.appendTo($('#frame'));
+				    img.onload = function() {
+
+				    	// detect image orientation
+				    	if ( img.width < img.height ) {
+				    		
+				    		var wrapper = $("<div/>");
+				    		wrapper.css('height', previewWidth * 0.75)
+				    			.css('width', previewWidth)
+				    			.css('float', 'left')
+				    			.css('overflow', 'hidden');
+				    		wrapper.append(img);
+				    		$('#frame').append(wrapper);
+				    		
+//				    		$(img).css('height', previewWidth * 0.75);
+				    	}
+				    	else {
+				    		$(img).css('width', previewWidth);
+				    		$('#frame').append(img);
+				    	}
+				    };
+				    
+				    
+//					var img = $('<img />', {
+//						src : '/images/' + v,
+//						style : 'width:' + previewWidth
+//					});
+//
+//					img.onload = function() {
+//						console.log(' image width : ' + img.height());
+//					};
+//					
+//					$(img).css('width', previewWidth);
+//					$('#frame').append(img);
 				}, time += 50)
 			});
 		},
