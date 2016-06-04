@@ -3,13 +3,14 @@ $(function() {
 	var done = 0;
 	var page = 1;
 
-	var frameHeight = $(window).height();
-	$('#frame').css('height', frameHeight);
+//	var frameHeight = $(window).height();
 
 	var numPics, previewWidth;
 
-	[ numPics, previewWidth ] = getPicsPerScreen();
+	[ numPics, previewWidth, gridHeight ] = getPicsPerScreen();
 
+	$('#frame').css('height', gridHeight);
+	
 	done = loadPics(page, numPics, previewWidth, done);
 	page++;
 
@@ -18,35 +19,47 @@ $(function() {
 		//    	var scrollPosition = $(window).height() + $(window).scrollTop();
 		//    	if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
 		if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-		// if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+//		 if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
 
+			console.log('scroll'); 
+			
 			if (typeof flag != 'undefined' && flag) return;
 
 			flag = true;
 
 			if (!done) {
 
-				var height = $('#frame').height() + $(window).height();
+				console.log('fired');
+				
+				var height = $('#frame').height() + gridHeight;
 
 				$('#frame').css('height', height);
 
 				setTimeout(function() {
-					window.scrollBy(0, $(window).height()
-							- Math.ceil(previewWidth * 0.75));
+					window.scrollBy(0, gridHeight - 150);
 				}, 100);
 
-				done = loadPics(page, numPics, previewWidth, done);
-				page++;
+				setTimeout(function() {
+					done = loadPics(page, numPics, previewWidth, done);
+					page++;
+				}, 200);
+				
 			}
-			flag = undefined;
+			
+			setTimeout(function() {
+				flag = undefined;
+			}, 700);
 		}
 
 	};
 
 	$(window).resize(function() {
 
-		[ numPics, previewWidth ] = getPicsPerScreen();
-		$('img').css('width', previewWidth);
+		  if (window.RT) clearTimeout(window.RT);
+		  window.RT = setTimeout(function()
+		  {
+		    this.location.reload(false); /* false to get page from cache */
+		  }, 10);
 	});
 });
 
@@ -71,8 +84,12 @@ function getPicsPerScreen() {
 	
 	// get # pics per screen
 	var numPics = picsPerCol * picsPerRow;
+	
+	var gridHeight = picsPerCol * previewHeight;
+	
+	console.log(gridHeight);
 
-	return [ numPics, previewWidth ];
+	return [ numPics, previewWidth, gridHeight ];
 }
 
 function loadPics(page, numPics, previewWidth, done) {
@@ -96,7 +113,6 @@ function loadPics(page, numPics, previewWidth, done) {
 
 				setTimeout(function() {
 
-					
 				    var imgPath = '/images/' + v;
 				    var img = new Image();
 				    img.src = imgPath;
@@ -106,34 +122,28 @@ function loadPics(page, numPics, previewWidth, done) {
 				    	// detect image orientation
 				    	if ( img.width < img.height ) {
 				    		
+				    		// keep original pic height for top padding calculation
+				    		var picHeight = img.height;
+				    		
+				    		// add wrapper
 				    		var wrapper = $("<div/>");
-				    		wrapper.css('height', previewWidth * 0.75)
+				    		wrapper.css('height', Math.ceil(previewWidth * 0.75))
 				    			.css('width', previewWidth)
 				    			.css('float', 'left')
 				    			.css('overflow', 'hidden');
+				    		
+				    		var topPadding = - Math.ceil((picHeight - ( previewWidth * 0.75 )) / 2);
+				    		
+				    		$(img).css('position', 'relative').css('top', topPadding ).css('width', previewWidth);
+				    		
 				    		wrapper.append(img);
 				    		$('#frame').append(wrapper);
-				    		
-//				    		$(img).css('height', previewWidth * 0.75);
 				    	}
 				    	else {
-				    		$(img).css('width', previewWidth);
+				    		$(img).css('width', previewWidth).css('height', Math.ceil(previewWidth * 0.75));
 				    		$('#frame').append(img);
 				    	}
 				    };
-				    
-				    
-//					var img = $('<img />', {
-//						src : '/images/' + v,
-//						style : 'width:' + previewWidth
-//					});
-//
-//					img.onload = function() {
-//						console.log(' image width : ' + img.height());
-//					};
-//					
-//					$(img).css('width', previewWidth);
-//					$('#frame').append(img);
 				}, time += 50)
 			});
 		},
