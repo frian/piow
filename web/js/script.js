@@ -113,10 +113,19 @@ function loadPics(page, numPics, previewWidth, done) {
 
 				setTimeout(function() {
 
-				    var imgPath = '/images/' + v;
+				    var previewPath = '/images/' + v;
 				    var img = new Image();
-				    img.src = imgPath;
+				    img.src = previewPath;
 
+				    var imgName = v.replace("prev-", "");
+
+
+					var link = $('<a />');
+					
+					link.attr("href", "/images/" + imgName);
+					
+					$(link).append(img);
+					
 				    img.onload = function() {
 
 				    	// detect image orientation
@@ -136,12 +145,12 @@ function loadPics(page, numPics, previewWidth, done) {
 				    		
 				    		$(img).css('position', 'relative').css('top', topPadding ).css('width', previewWidth);
 				    		
-				    		wrapper.append(img);
+				    		wrapper.append(link);
 				    		$('#frame').append(wrapper);
 				    	}
 				    	else {
 				    		$(img).css('width', previewWidth).css('height', Math.ceil(previewWidth * 0.75));
-				    		$('#frame').append(img);
+				    		$('#frame').append(link);
 				    	}
 				    };
 				}, time += 50)

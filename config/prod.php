@@ -6,9 +6,11 @@
  *    standard configuration
  *    should work in most cases
  *    if not commment the following line
- *    and uncomment line 21 below
+ *    and uncomment line 13 below
  */
 $imagesDir = '/images/';
+
+// $imagesDir = '<subdomain>/web/images/';
 
 
 /*
