@@ -70,17 +70,26 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 /* line 8, ../sass/screen.scss */
 body {
   width: 100%;
+  height: 100%;
   color: white;
   background-color: black;
 }
 
-/* line 14, ../sass/screen.scss */
+/* line 15, ../sass/screen.scss */
 img {
   float: left;
-  width: 150px;
+  max-width: 100%;
+  max-height: 100%;
+  /*     opacity : 0; */
+  /*     width : 150px; */
 }
 
-/* line 19, ../sass/screen.scss */
+/* line 23, ../sass/screen.scss */
+#frame {
+  position: relative;
+}
+
+/* line 25, ../sass/screen.scss */
 .scrollbar-measure {
   width: 100px;
   height: 100px;
@@ -89,7 +98,18 @@ img {
   top: -9999px;
 }
 
-/* line 27, ../sass/screen.scss */
+/* line 33, ../sass/screen.scss */
 h1 {
   text-align: center;
+}
+
+/* line 35, ../sass/screen.scss */
+#imgFrame {
+  position: absolute;
+  top: 0;
+  width: 100% !important;
+  height: 100% !important;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  /* 	border : 1px solid red; */
 }

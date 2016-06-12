@@ -1,27 +1,68 @@
 $(function() {
 
-	var done = 0;
-	var page = 1;
+	console.log(getOrientation());
+	
+	var done = 0; // flag : 1 if all images are loaded
+	var page = 1; // page number
 
-//	var frameHeight = $(window).height();
-
-	var numPics, previewWidth;
+	var numPics, previewWidth, gridHeight;
 
 	[ numPics, previewWidth, gridHeight ] = getPicsPerScreen();
 
 	$('#frame').css('height', gridHeight);
 	
 	done = loadPics(page, numPics, previewWidth, done);
+	
 	page++;
 
-	window.onscroll = function(ev) {
-		//    	var scrollHeight = $(document).height();
-		//    	var scrollPosition = $(window).height() + $(window).scrollTop();
-		//    	if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
-		if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-//		 if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
 
-			console.log('scroll'); 
+	// click on preview
+    $(document).on("click","a",function(e) {
+    	
+    	e.preventDefault();
+
+    	// create the overlay frame
+    	var frame = $("<div/>").attr('id', 'imgFrame');
+    	
+    	// get and set top position of the frame
+    	var top  = window.pageYOffset || document.documentElement.scrollTop;
+    	frame.css('top', top);
+
+    	// createa new image
+    	var img = new Image();
+
+    	// when image is loaded ...
+	    img.onload = function() {
+
+	    	// get image width for left margin
+	    	var imgWidth = getHeight() / img.height * img.width;
+	    	
+	    	// get left margin
+	    	var leftPos = (getWidth() - imgWidth) / 2;
+
+	    	// apply left margin
+	    	$(img).css( 'position', 'relative' );
+	    	$(img).css( 'left', leftPos );
+	    }
+
+	    // set image source
+    	img.src= $(this).attr('href');
+    	
+    	// put image in frame and append to body
+    	frame.html(img).appendTo($('body'));
+    });
+	
+    
+    // close picture frame
+    $(document).on("click","#imgFrame",function(e) {
+    	this.remove();
+    });
+    
+    
+
+    // scroll event
+	window.onscroll = function(ev) {
+		if ($(window).scrollTop() + $(window).height() == $(document).height()) {
 			
 			if (typeof flag != 'undefined' && flag) return;
 
@@ -50,18 +91,27 @@ $(function() {
 				flag = undefined;
 			}, 700);
 		}
-
 	};
 
+
+	// resize function
 	$(window).resize(function() {
 
 		  if (window.RT) clearTimeout(window.RT);
-		  window.RT = setTimeout(function()
-		  {
+
+		  window.RT = setTimeout(function()  {
 		    this.location.reload(false); /* false to get page from cache */
 		  }, 10);
 	});
+
 });
+
+
+
+
+
+
+
 
 function getPicsPerScreen() {
 
@@ -87,11 +137,11 @@ function getPicsPerScreen() {
 	
 	var gridHeight = picsPerCol * previewHeight;
 	
-	console.log(gridHeight);
-
 	return [ numPics, previewWidth, gridHeight ];
 }
 
+
+// 
 function loadPics(page, numPics, previewWidth, done) {
 
 	url = '/' + page + '/' + numPics;
@@ -198,6 +248,23 @@ function getGridInfos(width, height) {
 	var picsPerCol = parseInt(height / previewHeight) + 1;
 
 	return [ picsPerRow, picsPerCol, previewWidth, previewHeight ];
+}
+
+function getOrientation() {
+
+  if ( getWidth() > getHeight() ) {
+    return 'l';
+  }
+  return 'p';
+}
+
+function getWidth() {
+ return $(window).width();
+}
+
+
+function getHeight() {
+  return $(window).height();
 }
 
 // eof
