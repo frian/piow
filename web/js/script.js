@@ -15,9 +15,10 @@ $(function() {
 
 
 	// click on preview
-    $(document).on("click","a",function(e) {
+    $(document).on("click","a:not( .next, .prev )",function(e) {
     	
     	e.preventDefault();
+    	$(this).addClass('current'); // empty class used to find next and previous image
     	showImage(this);
     });
 	
@@ -28,6 +29,101 @@ $(function() {
     });
     
     
+    // show next image
+    $(document).on("click",".next",function(e) {
+    	e.preventDefault();
+    	
+    	// get current image
+    	var old =  $(".current");
+
+    	old.removeClass();
+    	
+    	// check if next is in wrapper
+    	var current = old.nextAll().find("a").attr("href");
+    	var cur = old.nextAll().find("a").first();
+    	console.log('1 : ' + current);
+    	
+    	
+    	// if not ...
+    	if ( ! current ) { 
+    		current = old.nextAll("a").attr("href");
+    		cur = old.nextAll("a").first();
+    	}
+    	
+    	console.log('2 : ' + current);
+    	
+    	if ( ! current ) { 
+    		current = old.parent().nextAll("a").attr("href");
+    		cur = old.parent().nextAll("a").first();
+    	}
+    	
+    	console.log('3 : ' + current);
+    	
+    	$(cur).addClass("current");
+    	
+//    	showImage(cur);
+    	
+    	$("#imgFrame img").remove();
+    	
+    	
+    	
+    	// createa new image
+    	var img = new Image();
+
+    	// apply base class
+    	$(img).addClass('fullPic');
+
+
+    	// when image is loaded ...
+        img.onload = function() {
+
+    		var screenRatio = getScreenRatio();
+    		var imageRatio = getImageRatio(img);
+
+        	if ( getScreenOrientation() == 'l' && screenRatio > imageRatio ) {
+
+        		// get image orientation
+
+
+            	// get image width for left margin
+            	var imgWidth = getHeight() / img.height * img.width;
+            	
+            	// get left margin
+            	var leftPos = (getWidth() - imgWidth) / 2;
+
+            	// apply left margin
+            	$(img).css( 'left', leftPos );
+        	}
+        	else {
+
+            	// get image height for top margin
+            	var imgHeight = getWidth() / img.width * img.height;
+            	
+            	// get left margin
+            	var topPos = (getHeight() - imgHeight) / 2;
+
+            	// apply left margin
+            	$(img).css( 'top', topPos );
+        	}
+        	
+        }
+
+        // set image source
+    	img.src= current;
+    	
+    	console.log(current);
+    	console.log(img);
+    	
+    	$("#imgFrame").append(img);
+    	
+    	
+    	
+    	
+    	
+    	
+//    	console.log(current.attr("href"));
+    });
+
 
     // scroll event
 	window.onscroll = function(ev) {
@@ -138,7 +234,18 @@ function showImage(that) {
 	
 	var anim = {opacity: 1};
 	$(img).animate( anim, 1000 );
+	
+	// create the navigation frame
+	var navFrame = $("<div/>").attr('id', 'navFrame');
 
+	// add navigation links
+	var nextLink = $("<a/>").attr( 'href', '#' ).addClass("next");
+	var prevLink = $("<a/>").attr( 'href', '#' ).addClass("prev");
+	
+	navFrame.append(nextLink);
+	navFrame.append(prevLink);
+	
+	$('body').append(navFrame);
 }
 
 

@@ -87,7 +87,7 @@ img.fullPic {
   position: relative;
   max-width: 100%;
   max-height: 100%;
-  opacity: 0;
+  /*    	opacity : 0; */
 }
 
 /* line 29, ../sass/screen.scss */
@@ -99,6 +99,7 @@ div.previewWrapper {
 /* line 35, ../sass/screen.scss */
 #frame {
   position: relative;
+  z-index: 0;
 }
 
 /* line 37, ../sass/screen.scss */
@@ -124,4 +125,31 @@ h1 {
   background: rgba(0, 0, 0, 0.8);
   z-index: 10;
   /* 	border : 1px solid red; */
+}
+
+/* line 57, ../sass/screen.scss */
+#navFrame {
+  position: absolute;
+  top: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 20;
+}
+
+/* line 66, ../sass/screen.scss */
+a.next {
+  float: right;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+
+/* line 74, ../sass/screen.scss */
+a.prev {
+  float: left;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  position: relative;
 }
