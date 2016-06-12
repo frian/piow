@@ -76,20 +76,32 @@ body {
 }
 
 /* line 15, ../sass/screen.scss */
-img {
+img.preview {
   float: left;
-  max-width: 100%;
-  max-height: 100%;
   /*     opacity : 0; */
   /*     width : 150px; */
 }
 
-/* line 23, ../sass/screen.scss */
+/* line 21, ../sass/screen.scss */
+img.fullPic {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  opacity: 0;
+}
+
+/* line 29, ../sass/screen.scss */
+div.previewWrapper {
+  float: left;
+  overflow: hidden;
+}
+
+/* line 35, ../sass/screen.scss */
 #frame {
   position: relative;
 }
 
-/* line 25, ../sass/screen.scss */
+/* line 37, ../sass/screen.scss */
 .scrollbar-measure {
   width: 100px;
   height: 100px;
@@ -98,12 +110,12 @@ img {
   top: -9999px;
 }
 
-/* line 33, ../sass/screen.scss */
+/* line 45, ../sass/screen.scss */
 h1 {
   text-align: center;
 }
 
-/* line 35, ../sass/screen.scss */
+/* line 47, ../sass/screen.scss */
 #imgFrame {
   position: absolute;
   top: 0;

@@ -1,7 +1,5 @@
 $(function() {
 
-	console.log(getOrientation());
-	
 	var done = 0; // flag : 1 if all images are loaded
 	var page = 1; // page number
 
@@ -20,36 +18,7 @@ $(function() {
     $(document).on("click","a",function(e) {
     	
     	e.preventDefault();
-
-    	// create the overlay frame
-    	var frame = $("<div/>").attr('id', 'imgFrame');
-    	
-    	// get and set top position of the frame
-    	var top  = window.pageYOffset || document.documentElement.scrollTop;
-    	frame.css('top', top);
-
-    	// createa new image
-    	var img = new Image();
-
-    	// when image is loaded ...
-	    img.onload = function() {
-
-	    	// get image width for left margin
-	    	var imgWidth = getHeight() / img.height * img.width;
-	    	
-	    	// get left margin
-	    	var leftPos = (getWidth() - imgWidth) / 2;
-
-	    	// apply left margin
-	    	$(img).css( 'position', 'relative' );
-	    	$(img).css( 'left', leftPos );
-	    }
-
-	    // set image source
-    	img.src= $(this).attr('href');
-    	
-    	// put image in frame and append to body
-    	frame.html(img).appendTo($('body'));
+    	showImage(this);
     });
 	
     
@@ -97,7 +66,9 @@ $(function() {
 	// resize function
 	$(window).resize(function() {
 
-		  if (window.RT) clearTimeout(window.RT);
+		  if (window.RT) {
+			  clearTimeout(window.RT);
+		  }
 
 		  window.RT = setTimeout(function()  {
 		    this.location.reload(false); /* false to get page from cache */
@@ -108,12 +79,72 @@ $(function() {
 
 
 
+function showImage(that) {
+
+
+	// create the overlay frame
+	var frame = $("<div/>").attr('id', 'imgFrame');
+	
+	// get and set top position of the frame
+	var top  = window.pageYOffset || document.documentElement.scrollTop;
+	frame.css('top', top);
+
+	// createa new image
+	var img = new Image();
+
+	// apply base class
+	$(img).addClass('fullPic');
+
+
+	// when image is loaded ...
+    img.onload = function() {
+
+		var screenRatio = getScreenRatio();
+		var imageRatio = getImageRatio(img);
+
+    	if ( getScreenOrientation() == 'l' && screenRatio > imageRatio ) {
+
+    		// get image orientation
+
+
+        	// get image width for left margin
+        	var imgWidth = getHeight() / img.height * img.width;
+        	
+        	// get left margin
+        	var leftPos = (getWidth() - imgWidth) / 2;
+
+        	// apply left margin
+        	$(img).css( 'left', leftPos );
+    	}
+    	else {
+
+        	// get image height for top margin
+        	var imgHeight = getWidth() / img.width * img.height;
+        	
+        	// get left margin
+        	var topPos = (getHeight() - imgHeight) / 2;
+
+        	// apply left margin
+        	$(img).css( 'top', topPos );
+    	}
+    	
+    }
+
+    // set image source
+	img.src= $(that).attr('href');
+	
+	// put image in frame and append to body
+	frame.html(img).appendTo($('body'));
+	
+	var anim = {opacity: 1};
+	$(img).animate( anim, 1000 );
+
+}
 
 
 
 
-
-function getPicsPerScreen() {
+ function getPicsPerScreen() {
 
 	// get screen size
 	var width = $(window).width();
@@ -141,7 +172,7 @@ function getPicsPerScreen() {
 }
 
 
-// 
+// load previews
 function loadPics(page, numPics, previewWidth, done) {
 
 	url = '/' + page + '/' + numPics;
@@ -164,17 +195,16 @@ function loadPics(page, numPics, previewWidth, done) {
 				setTimeout(function() {
 
 				    var previewPath = '/images/' + v;
+
 				    var img = new Image();
-				    img.src = previewPath;
 
-				    var imgName = v.replace("prev-", "");
-
-
+				    // create link to image
 					var link = $('<a />');
-					
+				    var imgName = v.replace("prev-", "");
 					link.attr("href", "/images/" + imgName);
-					
-					$(link).append(img);
+
+					// put image in link
+					$(link).html(img);
 					
 				    img.onload = function() {
 
@@ -186,11 +216,10 @@ function loadPics(page, numPics, previewWidth, done) {
 				    		
 				    		// add wrapper
 				    		var wrapper = $("<div/>");
-				    		wrapper.css('height', Math.ceil(previewWidth * 0.75))
-				    			.css('width', previewWidth)
-				    			.css('float', 'left')
-				    			.css('overflow', 'hidden');
+				    		wrapper.addClass('previewWrapper');
+				    		wrapper.css('height', Math.ceil(previewWidth * 0.75)).css('width', previewWidth);
 				    		
+				    		// get top padding
 				    		var topPadding = - Math.ceil((picHeight - ( previewWidth * 0.75 )) / 2);
 				    		
 				    		$(img).css('position', 'relative').css('top', topPadding ).css('width', previewWidth);
@@ -203,6 +232,11 @@ function loadPics(page, numPics, previewWidth, done) {
 				    		$('#frame').append(link);
 				    	}
 				    };
+				    
+				    $(img).addClass('preview');
+				    
+				    img.src = previewPath;
+				    
 				}, time += 50)
 			});
 		},
@@ -250,13 +284,32 @@ function getGridInfos(width, height) {
 	return [ picsPerRow, picsPerCol, previewWidth, previewHeight ];
 }
 
-function getOrientation() {
+function getScreenOrientation() {
 
   if ( getWidth() > getHeight() ) {
     return 'l';
   }
   return 'p';
 }
+
+
+function getScreenRatio() {
+	return getWidth() / getHeight();
+}
+
+function getImageOrientation(item) {
+
+	if ( item.width > item.height ) {
+		return 'l';
+	}
+	return 'p';
+}
+
+function getImageRatio(item) {
+	return item.width / item.height;
+}
+
+
 
 function getWidth() {
  return $(window).width();
