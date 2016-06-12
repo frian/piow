@@ -30,7 +30,48 @@ $(function() {
     
     
     // show next image
+    $(document).on("click",".prev",function(e) {
+
+    	e.preventDefault();
+    	
+    	// get current image
+    	var old =  $(".current");
+    	console.log( old.attr("href") );
+
+    	old.removeClass();
+    	
+    	// check if next is in wrapper
+    	var current = current = old.prev("div").find("a").attr("href");
+    	var cur = old.prev("div").find("a").first();
+
+    	// if not ...
+    	if ( ! current ) { 
+    		current = old.parent().prev("div").find("a").attr("href");
+    		cur = old.parent().prev("div").last();
+    	}
+    	
+    	if ( ! current ) { 
+        	current = old.prevAll("a").attr("href");
+        	cur = old.prevAll("a").first();
+    		console.log('cur : ' + cur);
+    	}
+    	
+    	$(cur).addClass("current");
+
+    	$("#imgFrame img").remove();
+
+    	var img = _getImage();
+    	
+        // set image source
+    	img.src= current;
+    	
+    	$("#imgFrame").append(img);
+    });
+
+    
+    // show next image
     $(document).on("click",".next",function(e) {
+
     	e.preventDefault();
     	
     	// get current image
@@ -41,87 +82,28 @@ $(function() {
     	// check if next is in wrapper
     	var current = old.nextAll().find("a").attr("href");
     	var cur = old.nextAll().find("a").first();
-    	console.log('1 : ' + current);
-    	
-    	
+
     	// if not ...
     	if ( ! current ) { 
     		current = old.nextAll("a").attr("href");
     		cur = old.nextAll("a").first();
     	}
     	
-    	console.log('2 : ' + current);
-    	
     	if ( ! current ) { 
     		current = old.parent().nextAll("a").attr("href");
     		cur = old.parent().nextAll("a").first();
     	}
     	
-    	console.log('3 : ' + current);
-    	
     	$(cur).addClass("current");
     	
-//    	showImage(cur);
-    	
     	$("#imgFrame img").remove();
+
+    	var img = _getImage();
     	
-    	
-    	
-    	// createa new image
-    	var img = new Image();
-
-    	// apply base class
-    	$(img).addClass('fullPic');
-
-
-    	// when image is loaded ...
-        img.onload = function() {
-
-    		var screenRatio = getScreenRatio();
-    		var imageRatio = getImageRatio(img);
-
-        	if ( getScreenOrientation() == 'l' && screenRatio > imageRatio ) {
-
-        		// get image orientation
-
-
-            	// get image width for left margin
-            	var imgWidth = getHeight() / img.height * img.width;
-            	
-            	// get left margin
-            	var leftPos = (getWidth() - imgWidth) / 2;
-
-            	// apply left margin
-            	$(img).css( 'left', leftPos );
-        	}
-        	else {
-
-            	// get image height for top margin
-            	var imgHeight = getWidth() / img.width * img.height;
-            	
-            	// get left margin
-            	var topPos = (getHeight() - imgHeight) / 2;
-
-            	// apply left margin
-            	$(img).css( 'top', topPos );
-        	}
-        	
-        }
-
         // set image source
     	img.src= current;
     	
-    	console.log(current);
-    	console.log(img);
-    	
     	$("#imgFrame").append(img);
-    	
-    	
-    	
-    	
-    	
-    	
-//    	console.log(current.attr("href"));
     });
 
 
@@ -185,6 +167,33 @@ function showImage(that) {
 	var top  = window.pageYOffset || document.documentElement.scrollTop;
 	frame.css('top', top);
 
+	var img = _getImage();
+	
+    // set image source
+	img.src= $(that).attr('href');
+	
+	// put image in frame and append to body
+	frame.html(img).appendTo($('body'));
+	
+	var anim = {opacity: 1};
+	$(img).animate( anim, 1000 );
+	
+	// create the navigation frame
+	var navFrame = $("<div/>").attr('id', 'navFrame');
+
+	// add navigation links
+	var nextLink = $("<a/>").attr( 'href', '#' ).addClass("next");
+	var prevLink = $("<a/>").attr( 'href', '#' ).addClass("prev");
+	
+	navFrame.append(nextLink);
+	navFrame.append(prevLink);
+	
+	$('body').append(navFrame);
+}
+
+function _getImage() {
+
+
 	// createa new image
 	var img = new Image();
 
@@ -223,35 +232,13 @@ function showImage(that) {
         	// apply left margin
         	$(img).css( 'top', topPos );
     	}
-    	
     }
 
-    // set image source
-	img.src= $(that).attr('href');
-	
-	// put image in frame and append to body
-	frame.html(img).appendTo($('body'));
-	
-	var anim = {opacity: 1};
-	$(img).animate( anim, 1000 );
-	
-	// create the navigation frame
-	var navFrame = $("<div/>").attr('id', 'navFrame');
-
-	// add navigation links
-	var nextLink = $("<a/>").attr( 'href', '#' ).addClass("next");
-	var prevLink = $("<a/>").attr( 'href', '#' ).addClass("prev");
-	
-	navFrame.append(nextLink);
-	navFrame.append(prevLink);
-	
-	$('body').append(navFrame);
+    return img;
 }
 
 
-
-
- function getPicsPerScreen() {
+function getPicsPerScreen() {
 
 	// get screen size
 	var width = $(window).width();
