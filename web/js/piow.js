@@ -394,21 +394,39 @@ function preventDefaultForScrollKeys(e) {
 }
 
 function disableScroll() {
-if (window.addEventListener) // older FF
-   window.addEventListener('DOMMouseScroll', preventDefault, false);
-window.onwheel = preventDefault; // modern standard
-window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
-window.ontouchmove  = preventDefault; // mobile
-document.onkeydown  = preventDefaultForScrollKeys;
+	if (window.addEventListener) // older FF
+	   window.addEventListener('DOMMouseScroll', preventDefault, false);
+	window.onwheel = preventDefault; // modern standard
+	window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+	window.ontouchmove  = preventDefault; // mobile
+	document.onkeydown  = preventDefaultForScrollKeys;
+	
+	unloadScrollBars();
 }
 
 function enableScroll() {
- if (window.removeEventListener)
-     window.removeEventListener('DOMMouseScroll', preventDefault, false);
- window.onmousewheel = document.onmousewheel = null; 
- window.onwheel = null; 
- window.ontouchmove = null;  
- document.onkeydown = null;  
+	if (window.removeEventListener)
+		window.removeEventListener('DOMMouseScroll', preventDefault, false);
+	window.onmousewheel = document.onmousewheel = null; 
+	window.onwheel = null; 
+	window.ontouchmove = null;  
+	document.onkeydown = null;
+	 
+	reloadScrollBars()
+}
+
+
+
+
+
+function reloadScrollBars() {
+    document.documentElement.style.overflow = 'auto';  // firefox, chrome
+    document.body.scroll = "yes"; // ie only
+}
+
+function unloadScrollBars() {
+    document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+    document.body.scroll = "no"; // ie only
 }
 
 
