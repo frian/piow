@@ -11,7 +11,7 @@ function showImage(that) {
 	// get and set top position of the frame
 	var top  = window.pageYOffset || document.documentElement.scrollTop;
 	frame.css('top', top);
-
+	
 	var img = _getImage();
 	
 	// put image in frame and append to body
@@ -28,6 +28,9 @@ function showImage(that) {
 	navFrame.append(prevLink);
 
 	var close = $("<div/>").attr( 'id', 'close' ).html("<i class='icon-cancel'></i>");
+
+	close.css('top', top);
+
 	navFrame.append(close);
 	
 	

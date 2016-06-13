@@ -129,8 +129,9 @@ $(function() {
 
 	// -- keyboard shortcuts
 	// ----------------------------------------------------
-	// right arrow : show next image 39
-	// left arrow : show previous image 37
+	// right arrow : show next image (39)
+	// left arrow : show previous image (37)
+	// x : close image frame (88)
 	$(document).keydown(
 			function(e) {
 				console.log(e.which);
@@ -138,6 +139,10 @@ $(function() {
 					navigateImage('next');
 				} else if (e.which == 37) {
 					navigateImage('prev');
+				}
+				else if (e.which == 88) {
+			    	$("#imgFrame").remove();
+			    	$("#navFrame").remove();
 				}
 			});
 });
