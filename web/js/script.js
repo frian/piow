@@ -24,6 +24,8 @@ $(function() {
     	e.preventDefault();
     	$(this).addClass('current'); // empty class used to find next and previous image
     	showImage(this);
+    	
+    	console.log("fired 2");
     });
 	
     
@@ -32,8 +34,10 @@ $(function() {
      * 
      * result : close image frame
      */
-    $(document).on("click","#imgFrame",function(e) {
-    	this.remove();
+    $(document).on("click","#close",function(e) {
+
+    	$("#imgFrame").remove();
+    	$("#navFrame").remove();
     });
     
     

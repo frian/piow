@@ -23,9 +23,13 @@ function showImage(that) {
 	// add navigation links
 	var nextLink = $("<a/>").attr( 'href', '#' ).addClass("next");
 	var prevLink = $("<a/>").attr( 'href', '#' ).addClass("prev");
-	
+
 	navFrame.append(nextLink);
 	navFrame.append(prevLink);
+
+	var close = $("<div/>").attr( 'id', 'close' ).html("<i class='icon-cancel'></i>");
+	navFrame.append(close);
+	
 	
 	$('body').append(navFrame);
 	
