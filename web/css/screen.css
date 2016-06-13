@@ -92,7 +92,7 @@ img.fullPic {
   position: relative;
   max-width: 100%;
   max-height: 100%;
-  /*    	opacity : 0; */
+  opacity: 0;
 }
 
 /* line 31, ../sass/screen.scss */
