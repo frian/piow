@@ -78,12 +78,9 @@ function navigateImage(direction) {
 
 	$("#imgFrame img").remove();
 
-	console.log( 'getting image' );
 	var img = _getImage();
 
 	img.src = currentImage;
-	
-	console.log(currentImage);
 	
 	$("#imgFrame").append(img);
 }
@@ -105,7 +102,7 @@ function navigateImage(direction) {
 
 	// when image is loaded ...
     img.onload = function() {
-    	console.log('image loaded');
+
 		var screenRatio = getScreenRatio();
 		var imageRatio = getImageRatio(img);
 
@@ -154,7 +151,7 @@ function getPicsPerScreen() {
 	var height = $(window).height();
 
 	// get grid infos
-	[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = getGridInfos(width,height);
+	[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = _getGridInfos(width,height);
 
 	// if we need a scrollbar
 	if ( picsPerCol * previewHeight > height ) {
@@ -163,7 +160,7 @@ function getPicsPerScreen() {
 
 		width -= scrollWidth;
 
-		[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = getGridInfos(width,height);
+		[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = _getGridInfos(width,height);
 	}
 	
 	// get # pics per screen
@@ -291,7 +288,7 @@ function getScrollWidth() {
  * @param height
  * @returns {Array}
  */
-function getGridInfos(width, height) {
+function _getGridInfos(width, height) {
 
 	var previewWidth = 150;
 	var imageRatio = 0.75;
@@ -373,6 +370,45 @@ function getWidth() {
  */
 function getHeight() {
   return $(window).height();
+}
+
+
+
+
+//left: 37, up: 38, right: 39, down: 40,
+//spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+function preventDefault(e) {
+e = e || window.event;
+if (e.preventDefault)
+   e.preventDefault();
+e.returnValue = false;  
+}
+
+function preventDefaultForScrollKeys(e) {
+ if (keys[e.keyCode]) {
+     preventDefault(e);
+     return false;
+ }
+}
+
+function disableScroll() {
+if (window.addEventListener) // older FF
+   window.addEventListener('DOMMouseScroll', preventDefault, false);
+window.onwheel = preventDefault; // modern standard
+window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+window.ontouchmove  = preventDefault; // mobile
+document.onkeydown  = preventDefaultForScrollKeys;
+}
+
+function enableScroll() {
+ if (window.removeEventListener)
+     window.removeEventListener('DOMMouseScroll', preventDefault, false);
+ window.onmousewheel = document.onmousewheel = null; 
+ window.onwheel = null; 
+ window.ontouchmove = null;  
+ document.onkeydown = null;  
 }
 
 

@@ -5,12 +5,16 @@ $(function() {
 
 	var numPics, previewWidth, gridHeight;
 
+	// get infos on previews grid
 	[ numPics, previewWidth, gridHeight ] = getPicsPerScreen();
 
+	// set frame height
 	$('#frame').css('height', gridHeight);
 	
+	// load previews
 	done = loadPics(page, numPics, previewWidth, done);
 	
+	// increment page number
 	page++;
 
 
@@ -24,8 +28,7 @@ $(function() {
     	e.preventDefault();
     	$(this).addClass('current'); // empty class used to find next and previous image
     	showImage(this);
-    	
-    	console.log("fired 2");
+    	disableScroll();
     });
 	
     
@@ -38,6 +41,7 @@ $(function() {
 
     	$("#imgFrame").remove();
     	$("#navFrame").remove();
+    	enableScroll();
     });
     
     
@@ -86,18 +90,19 @@ $(function() {
 			// set lock
 			lock = true;
 
+			// if we have still previews to load
 			if (!done) {
 
-				console.log('fired');
-				
+				// set frame height
 				var height = $('#frame').height() + gridHeight;
-
 				$('#frame').css('height', height);
 
+				// scroll
 				setTimeout(function() {
 					window.scrollBy(0, gridHeight - 150);
 				}, 100);
 
+				// load pics
 				setTimeout(function() {
 					done = loadPics(page, numPics, previewWidth, done);
 					page++;
@@ -105,6 +110,7 @@ $(function() {
 				
 			}
 			
+			// remove lock
 			setTimeout(function() {
 				lock = undefined;
 			}, 700);
@@ -129,11 +135,13 @@ $(function() {
 	});
 
 
-	// -- keyboard shortcuts
-	// ----------------------------------------------------
-	// right arrow : show next image (39)
-	// left arrow : show previous image (37)
-	// x : close image frame (88)
+	/**
+	 * keyboard shortcuts
+	 * 
+	 *   right arrow : show next image (39)
+	 *   left arrow : show previous image (37)
+	 *   x : close image frame (88)
+	 */
 	$(document).keydown( function(e) {
 		console.log(e.which);
 		if (e.which == 39) {
@@ -146,6 +154,7 @@ $(function() {
 		else if (e.which == 88) {
 	    	$("#imgFrame").remove();
 	    	$("#navFrame").remove();
+	    	enableScroll();
 		}
 	});
 
