@@ -10,7 +10,7 @@
  */
 $imagesDir = '/images/';
 
-// $imagesDir = '<subdomain>/web/images/';
+// $imagesDir = '/<subdomain>/<optionnal folder>/images/';
 
 
 /*
