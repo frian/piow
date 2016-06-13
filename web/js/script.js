@@ -96,9 +96,9 @@ $(function() {
 	// left arrow : show previous image 37
 	$(document).keydown(
 			function(e) {
-//				console.log(e.which);
+				console.log(e.which);
 				if (e.which == 39) {
-					navigateImage('prev');
+					navigateImage('next');
 				} else if (e.which == 37) {
 					navigateImage('prev');
 				}

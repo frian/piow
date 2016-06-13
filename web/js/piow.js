@@ -14,14 +14,8 @@ function showImage(that) {
 
 	var img = _getImage();
 	
-    // set image source
-	img.src= $(that).attr('href');
-	
 	// put image in frame and append to body
 	frame.html(img).appendTo($('body'));
-	
-	var anim = {opacity: 1};
-	$(img).animate( anim, 1000 );
 	
 	// create the navigation frame
 	var navFrame = $("<div/>").attr('id', 'navFrame');
@@ -34,6 +28,9 @@ function showImage(that) {
 	navFrame.append(prevLink);
 	
 	$('body').append(navFrame);
+	
+	// set image source
+	img.src= $(that).attr('href');
 }
 
 
@@ -45,8 +42,6 @@ function navigateImage(direction) {
 
 	// get current image
 	var old =  $(".current");
-	
-	old.removeClass();
 
 	var currentLink = undefined;
 	
@@ -64,21 +59,20 @@ function navigateImage(direction) {
 	if ( typeof currentImage == 'undefined' && direction == 'prev' ) {
 		return;
 	}
-	
+
+	old.removeClass();
 	
 	$(currentLink).addClass("current");
 
 	$("#imgFrame img").remove();
 
+	console.log( 'getting image' );
 	var img = _getImage();
-	
-    // set image source
-	img.src= currentImage;
+
+	// set image source
+	img.src = currentImage;
 	
 	$("#imgFrame").append(img);
-	
-	var anim = {opacity: 1};
-	$(img).animate( anim, 1000 );
 }
 
 
@@ -86,7 +80,7 @@ function navigateImage(direction) {
  * 
  * @returns {___anonymous994_996}
  */
- function _getImage() {
+ function _getImage(path) {
 
 
 	// createa new image
@@ -98,7 +92,7 @@ function navigateImage(direction) {
 
 	// when image is loaded ...
     img.onload = function() {
-
+    	console.log('image loaded');
 		var screenRatio = getScreenRatio();
 		var imageRatio = getImageRatio(img);
 
@@ -127,6 +121,9 @@ function navigateImage(direction) {
         	// apply left margin
         	$(img).css( 'top', topPos );
     	}
+
+		var anim = {opacity: 1};
+		$(img).animate( anim, 1000 );
     }
 
     return img;
