@@ -14,7 +14,11 @@ $(function() {
 	page++;
 
 
-	// click on preview
+	/**
+	 * trigger : click on a preview
+	 * 
+	 * result : show image
+	 */
     $(document).on("click","a:not( .next, .prev )",function(e) {
     	
     	e.preventDefault();
@@ -23,19 +27,36 @@ $(function() {
     });
 	
     
-    // close picture frame
+    /**
+     * trigger : click on close image
+     * 
+     * result : close image frame
+     */
     $(document).on("click","#imgFrame",function(e) {
     	this.remove();
     });
     
     
-    // show previous image
+    /**
+     * trigger : click on prev link
+     * 
+     * keyboard : left arrow
+     * 
+     * result : show previous image
+     */
     $(document).on("click",".prev",function(e) {
     	e.preventDefault();
     	navigateImage('prev');
     });
 
-    
+
+    /**
+     * trigger : click on next link
+     * 
+     * keyboard : right arrow
+     * 
+     * result : show next image
+     */
     // show next image
     $(document).on("click",".next",function(e) {
     	e.preventDefault();
@@ -43,13 +64,21 @@ $(function() {
     });
 
 
-    // scroll event
-	window.onscroll = function(ev) {
+    /**
+     * trigger : scroll
+     * 
+     * result : load more previews
+     */
+    $(window).scroll(function(ev) {
+
+    	// check of we reached bottom
 		if ($(window).scrollTop() + $(window).height() == $(document).height()) {
 			
-			if (typeof flag != 'undefined' && flag) return;
+			// return if we have a lock
+			if (typeof lock != 'undefined' && lock) return;
 
-			flag = true;
+			// set lock
+			lock = true;
 
 			if (!done) {
 
@@ -71,13 +100,17 @@ $(function() {
 			}
 			
 			setTimeout(function() {
-				flag = undefined;
+				lock = undefined;
 			}, 700);
 		}
-	};
+	});
 
 
-	// resize function
+	/**
+	 * trigger : resize
+	 * 
+	 * result : reload page
+	 */
 	$(window).resize(function() {
 
 		  if (window.RT) {
