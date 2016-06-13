@@ -29,15 +29,16 @@ function showImage(that) {
 
 	var close = $("<div/>").attr( 'id', 'close' ).html("<i class='icon-cancel'></i>");
 
-	close.css('top', top);
+//	close.css('top', top);
+	navFrame.css('top', top);
 
 	navFrame.append(close);
 	
 	
 	$('body').append(navFrame);
 	
-	// set image source
 	img.src= $(that).attr('href');
+	
 }
 
 
@@ -66,6 +67,10 @@ function navigateImage(direction) {
 	if ( typeof currentImage == 'undefined' && direction == 'prev' ) {
 		return;
 	}
+	
+	if ( typeof currentImage == 'undefined' && direction == 'next' ) {
+		return 1;
+	}
 
 	old.removeClass();
 	
@@ -76,8 +81,9 @@ function navigateImage(direction) {
 	console.log( 'getting image' );
 	var img = _getImage();
 
-	// set image source
 	img.src = currentImage;
+	
+	console.log(currentImage);
 	
 	$("#imgFrame").append(img);
 }

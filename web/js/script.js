@@ -64,7 +64,9 @@ $(function() {
     // show next image
     $(document).on("click",".next",function(e) {
     	e.preventDefault();
-    	navigateImage('next');
+    	temp = navigateImage('next');
+
+    	 _reloadInNav(temp);
     });
 
 
@@ -117,13 +119,13 @@ $(function() {
 	 */
 	$(window).resize(function() {
 
-		  if (window.RT) {
-			  clearTimeout(window.RT);
-		  }
+		if (window.RT) {
+			clearTimeout(window.RT);
+		}
 
-		  window.RT = setTimeout(function()  {
+		window.RT = setTimeout(function()  {
 		    this.location.reload(false); /* false to get page from cache */
-		  }, 10);
+		}, 10);
 	});
 
 
@@ -132,19 +134,36 @@ $(function() {
 	// right arrow : show next image (39)
 	// left arrow : show previous image (37)
 	// x : close image frame (88)
-	$(document).keydown(
-			function(e) {
-				console.log(e.which);
-				if (e.which == 39) {
-					navigateImage('next');
-				} else if (e.which == 37) {
-					navigateImage('prev');
-				}
-				else if (e.which == 88) {
-			    	$("#imgFrame").remove();
-			    	$("#navFrame").remove();
-				}
-			});
+	$(document).keydown( function(e) {
+		console.log(e.which);
+		if (e.which == 39) {
+	    	temp = navigateImage('next');
+	    	 _reloadInNav(temp);
+		} else if (e.which == 37) {
+			
+			navigateImage('prev');
+		}
+		else if (e.which == 88) {
+	    	$("#imgFrame").remove();
+	    	$("#navFrame").remove();
+		}
+	});
+
+
+	function _reloadInNav(temp) {
+
+    	if (temp == 1) {
+    		
+    		if ( ! done ) {
+    			done = loadPics(page, numPics, previewWidth, done);
+    			page++;
+    			
+    			setTimeout(function() {
+    				navigateImage('next');
+    			}, 500);
+    		}
+    	}
+	}
 });
 
 
