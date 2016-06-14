@@ -1,11 +1,10 @@
 {
-	"name" : "silex/web-profiler",
-	"description" : "A WebProfiler for Silex",
-	"homepage" : "http://silex.sensiolabs.org/",
+	"name" : "frian/piow",
+	"description" : "A single page web image gallery",
 	"license" : "MIT",
 	"authors" : [{
-			"name" : "Fabien Potencier",
-			"email" : "fabien@symfony.com"
+			"name" : "frian",
+			"email" : "a@frian.org"
 		}
 	],
 	"require" : {
