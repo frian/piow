@@ -3,24 +3,19 @@
 /*
  * configuration for development environment
  */
+use Silex\Provider;
 
-use Silex\Provider\MonologServiceProvider;
-use Silex\Provider\WebProfilerServiceProvider;
-
-// include the prod configuration
+// // include the prod configuration
 require __DIR__.'/prod.php';
 
-// enable the debug mode
+// // enable the debug mode
 $app['debug'] = true;
 
-// register Monolog
-$app->register(new MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__.'/../var/logs/silex_dev.log',
-));
 
 // register WebProfiler
-$app->register($p = new WebProfilerServiceProvider(), array(
+$app->register(new Provider\WebProfilerServiceProvider(), array(
     'profiler.cache_dir' => __DIR__.'/../var/cache/profiler',
+    'profiler.mount_prefix' => '/_profiler', // this is the default
 ));
 
-$app->mount('/_profiler', $p);
+// $app->mount('/_profiler', $p);

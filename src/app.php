@@ -1,48 +1,47 @@
 <?php
 
-use Silex\Application;
-use Silex\Provider\TwigServiceProvider;
-use Silex\Provider\UrlGeneratorServiceProvider;
-use Silex\Provider\FormServiceProvider;
-use Silex\Provider\SwiftmailerServiceProvider;
-use Silex\Provider\ValidatorServiceProvider;
-use Silex\Provider\TranslationServiceProvider;
-use Silex\Provider\ServiceControllerServiceProvider;
+use Silex\Provider;
 
-$app = new Application();
+
+$app = new Silex\Application();
+
+$app->register(new Provider\SessionServiceProvider());
 
 /*
  *  -- register service controller --------------------------------------------
 */
-$app->register(new ServiceControllerServiceProvider());
+$app->register(new Provider\ServiceControllerServiceProvider());
+
 
 /*
  *  -- register twig templating -----------------------------------------------
 */
-$app->register(new TwigServiceProvider());
+$app->register(new Provider\TwigServiceProvider());
+
 
 /*
- *  -- register url generator -------------------------------------------------
-*/
-$app->register(new UrlGeneratorServiceProvider());
+ *  -- register HTTPFragment -----------------------------------------------
+ */
+$app->register(new Provider\HttpFragmentServiceProvider());
+
 
 /*
  *  -- register form generator ------------------------------------------------
 */
-$app->register(new FormServiceProvider());
+$app->register(new Provider\FormServiceProvider());
 
 /*
  *  -- register swiftmailer ---------------------------------------------------
 */
-$app->register(new SwiftmailerServiceProvider());
+$app->register(new Provider\SwiftmailerServiceProvider());
 
 // configure smtp
 $app['swiftmailer.options'] =
 array(
-		'host'       => 'your-mail-server',
-		'port'       => 'your-mail-port',
-		'username'   => 'your-username',
-		'password'   => 'your-password',
+		'host'       => 'mail.at-info.ch',
+		'port'       => 587,
+		'username'   => 'andre@at-info.ch',
+		'password'   => 'br@ind3ad',
 		'encryption' => null,
 		'auth_mode'  => null
 );
@@ -50,34 +49,38 @@ array(
 /*
  *  -- register validator -----------------------------------------------------
 */
-$app->register(new ValidatorServiceProvider());
+$app->register(new Provider\ValidatorServiceProvider());
 
 /*
  *  -- register translator ----------------------------------------------------
 */
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+$app->register(new Provider\TranslationServiceProvider(), array(
 		'locale' => 'fr',
 ));
 
+
 /*
- *  -- EXAMPLE : load french validator message --------------------------------
+ *  -- load french validator message ------------------------------------------
 */
 $app->before(function () use ($app) {
 	$app['translator']->addLoader('xlf', new Symfony\Component\Translation\Loader\XliffFileLoader());
-  $app['translator']->addResource(
+    $app['translator']->addResource(
 	  'xlf',
-	  __DIR__ . '/../vendor/symfony/validator/Symfony/Component/Validator/Resources/translations/validators.fr.xlf',
+	  __DIR__ . '/../vendor/symfony/validator/Resources/translations/validators.fr.xlf',
 	  'fr',
 	  'validators');
+    
+	  $app['translator']->setLocale('fr');
 });
 
 
 
-$app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
+$app['twig'] = $app->extend('twig', function($twig, $app) {
 
     // add custom globals, filters, tags, ...
 
     return $twig;
-}));
+});
+
 
 return $app;
