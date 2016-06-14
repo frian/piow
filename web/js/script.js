@@ -25,51 +25,9 @@ $(function() {
 
 	animateButtonLoad($("#help"));
 
-	addHelpEventHandler();
+	addHelpHoverHandler();
 
-
-    /**
-     * trigger : hover over close
-     * 
-     * result : show close button
-     */
-    $(document).on("mouseenter","#close",function(e) {
-    	$(this).animate( {opacity: 1} , 500 );
-    });
-    
-    $(document).on("mouseleave","#close",function(e) {
-    	$(this).delay(1000).animate( {opacity: .3} , 500 );
-    	
-    });
-
-    
-    /**
-     * trigger : click on help
-     * 
-     * result : show help
-     */
-    $(document).on("click","#help",function(e) {
-
-    	$("#help").css("opacity", .3);
-    	
-    	console.log("disabling events");
-    	$(document).off("mouseenter","#help");
-    	$(document).off("mouseleave","#help")
-    	console.log("done");
-    	
-    	helpOn = 1;
-    	
-		$.ajax({
-			url : '/help',
-			type : "get",
-			success : function(data) {
-				$("body").append(data);
-
-				
-			},
-		});
-		
-    });
+    addHelpClickHandler()
 
 
 	/**
@@ -97,16 +55,22 @@ $(function() {
      */
     $(document).on("click","#close",function(e) {
     	
+    	$(document).off("click","#help");
+    	
     	$("#imgFrame").remove();
     	$("#navFrame").remove();
+
     	enableScroll();
-    	
+
 		setTimeout(function() {
-			addHelpEventHandler();
-		}, 1000);
+			addHelpHoverHandler();
+		    addHelpClickHandler()
+		}, 500);
 		
 		// disable pics loading on scroll
 		helpOn = 0;
+		
+		$("#help").css("opacity", .3);
     });
     
     
@@ -211,7 +175,7 @@ $(function() {
 	 *   x : close image frame (88)
 	 */
 	$(document).keydown( function(e) {
-		console.log(e.which);
+//		console.log(e.which);
 		if (e.which == 39) {
 	    	temp = navigateImage('next');
 	    	 _reloadInNav(temp);
@@ -220,14 +184,16 @@ $(function() {
 			navigateImage('prev');
 		}
 		else if (e.which == 88) {
+			$("#help").css("opacity", .3);
 	    	$("#imgFrame").remove();
 	    	$("#navFrame").remove();
 	    	enableScroll();
 	    	
 			setTimeout(function() {
-				addHelpEventHandler();
-			}, 1000);
-			
+//				addHelpHoverHandler();
+//			    addHelpClickHandler()
+			}, 500);
+	    	
 			// disable pics loading on scroll
 			helpOn = 0;
 		}

@@ -401,7 +401,7 @@ function animateButtonLoad(button) {
  * 
  * result : show help button
  */
-function addHelpEventHandler() {
+function addHelpHoverHandler() {
 
     $(document).on("mouseenter","#help",function(e) {
     	$(this).animate( {opacity: 1} , 500 );
@@ -410,8 +410,37 @@ function addHelpEventHandler() {
     $(document).on("mouseleave","#help",function(e) {
     	$(this).delay(1000).animate( {opacity: .3} , 500 );
     });
-    console.log("enabling events");
 }
+
+
+/**
+ * trigger : click on help
+ * 
+ * result : show help
+ */
+function addHelpClickHandler() {
+
+    $(document).on("click","#help",function(e) {
+    	
+//    	$("#help").css("opacity", .3);
+    	
+    	$(document).off("mouseenter","#help");
+    	$(document).off("mouseleave","#help")
+    	
+    	helpOn = 1;
+    	
+		$.ajax({
+			url : '/help',
+			type : "get",
+			success : function(data) {
+				$("body").append(data);
+				animateButtonLoad($("#close"));
+			},
+		});
+		
+    });
+}
+
 
 
 /**
@@ -450,6 +479,7 @@ function disableScroll() {
 }
 
 function enableScroll() {
+
 	if (window.removeEventListener)
 		window.removeEventListener('DOMMouseScroll', preventDefault, false);
 	window.onmousewheel = document.onmousewheel = null; 
