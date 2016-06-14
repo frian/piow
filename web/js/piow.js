@@ -378,9 +378,12 @@ function getHeight() {
 /**
  * -- Prevent scrolling -------------------------------------------------------
  */
-//left: 37, up: 38, right: 39, down: 40,
-//spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+/**
+ * left: 37, up: 38, right: 39, down: 40,
+ * spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+ */
+var keys = {37: 1, 38: 1, 39: 1, 40: 1, 32: 1, 33: 1, 34: 1, 35: 1, 36: 1};
 
 function preventDefault(e) {
 	e = e || window.event;
