@@ -24,21 +24,7 @@ $(function() {
 
 	animateButtonLoad($("#help"));
 
-    /**
-     * trigger : hover over help
-     * 
-     * result : show help button
-     */
-    $(document).on("mouseenter","#help",function(e) {
-
-    	$(this).animate( {opacity: 1} , 1000 );
-    });
-    
-    $(document).on("mouseleave","#help",function(e) {
-
-    	$(this).delay(2000).animate( {opacity: 0} , 1000 );
-    	
-    });
+	addHelpEventHandler();
 
 
     /**
@@ -47,13 +33,11 @@ $(function() {
      * result : show close button
      */
     $(document).on("mouseenter","#close",function(e) {
-
     	$(this).animate( {opacity: 1} , 1000 );
     });
     
     $(document).on("mouseleave","#close",function(e) {
-
-    	$(this).delay(2000).animate( {opacity: 0} , 1000 );
+    	$(this).delay(2000).animate( {opacity: .3} , 1000 );
     	
     });
 
@@ -81,6 +65,9 @@ $(function() {
     	$(this).addClass('current'); // empty class used to find next and previous image
     	showImage(this);
     	disableScroll();
+    	
+    	$(document).off("mouseenter","#help");
+    	$(document).off("mouseleave","#help")
     });
 	
     
@@ -90,10 +77,14 @@ $(function() {
      * result : close image frame
      */
     $(document).on("click","#close",function(e) {
-
+    	
     	$("#imgFrame").remove();
     	$("#navFrame").remove();
     	enableScroll();
+    	
+		setTimeout(function() {
+			addHelpEventHandler();
+		}, 1000);
     });
     
     
