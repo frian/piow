@@ -1,6 +1,6 @@
 #piow
 
-a simple one page web gallery
+a simple one page web gallery built on [Silex](http://silex.sensiolabs.org/) and [Jquery](https://jquery.com/).
 
 ##images
 
@@ -12,7 +12,7 @@ a simple one page web gallery
 
 ##configuration
 
-you may need to change
+if installed in a sub-domain you may need to change
  
 ```javascript
     $imagesDir = '/images/';

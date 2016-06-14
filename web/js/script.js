@@ -16,6 +16,21 @@ $(function() {
 	
 	// increment page number
 	page++;
+	
+	var helpButton = $("<div/>").attr( 'id', 'help' ).html("<i class='icon-help'></i>");
+
+	$('#frame').append(helpButton);
+
+
+    /**
+     * trigger : click on help
+     * 
+     * result : close image frame
+     */
+    $(document).on("click","#help",function(e) {
+
+    	alert("catched");
+    });
 
 
 	/**
@@ -26,6 +41,7 @@ $(function() {
     $(document).on("click","a:not( .next, .prev )",function(e) {
     	
     	e.preventDefault();
+    	$("#action").remove();
     	$(this).addClass('current'); // empty class used to find next and previous image
     	showImage(this);
     	disableScroll();
