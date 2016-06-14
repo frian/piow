@@ -39,6 +39,8 @@ function showImage(that) {
 	
 	img.src= $(that).attr('href');
 	
+	animateButtonLoad($("#close"));
+	
 }
 
 
@@ -373,6 +375,21 @@ function getHeight() {
 }
 
 
+function animateButtonLoad(button) {
+
+	var anim = {opacity: 1};
+	var anim2 = {opacity: 0};
+
+	button.animate( anim, 1000 ).delay(2000).animate( anim2, 2000 );
+
+	setTimeout(function() {
+		button.css("background-color", "red")
+	}, 2900);
+
+	setTimeout(function() {
+		button.css("background-color", "#666")
+	}, 4000);
+}
 
 
 /**

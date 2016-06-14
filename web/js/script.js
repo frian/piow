@@ -16,12 +16,48 @@ $(function() {
 	
 	// increment page number
 	page++;
+
 	
 	var helpButton = $("<div/>").attr( 'id', 'help' ).html("<i class='icon-help'></i>");
 
 	$('#frame').append(helpButton);
 
+	animateButtonLoad($("#help"));
 
+    /**
+     * trigger : hover over help
+     * 
+     * result : show help button
+     */
+    $(document).on("mouseenter","#help",function(e) {
+
+    	$(this).animate( {opacity: 1} , 1000 );
+    });
+    
+    $(document).on("mouseleave","#help",function(e) {
+
+    	$(this).delay(2000).animate( {opacity: 0} , 1000 );
+    	
+    });
+
+
+    /**
+     * trigger : hover over close
+     * 
+     * result : show close button
+     */
+    $(document).on("mouseenter","#close",function(e) {
+
+    	$(this).animate( {opacity: 1} , 1000 );
+    });
+    
+    $(document).on("mouseleave","#close",function(e) {
+
+    	$(this).delay(2000).animate( {opacity: 0} , 1000 );
+    	
+    });
+
+    
     /**
      * trigger : click on help
      * 
