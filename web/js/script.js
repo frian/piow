@@ -2,6 +2,7 @@ $(function() {
 
 	var done = 0; // flag : 1 if all images are loaded
 	var page = 1; // page number
+	var helpOn = 0; // flag
 
 	var numPics, previewWidth, gridHeight;
 
@@ -33,11 +34,11 @@ $(function() {
      * result : show close button
      */
     $(document).on("mouseenter","#close",function(e) {
-    	$(this).animate( {opacity: 1} , 1000 );
+    	$(this).animate( {opacity: 1} , 500 );
     });
     
     $(document).on("mouseleave","#close",function(e) {
-    	$(this).delay(2000).animate( {opacity: .3} , 1000 );
+    	$(this).delay(1000).animate( {opacity: .3} , 500 );
     	
     });
 
@@ -45,11 +46,29 @@ $(function() {
     /**
      * trigger : click on help
      * 
-     * result : close image frame
+     * result : show help
      */
     $(document).on("click","#help",function(e) {
 
-    	alert("catched");
+    	$("#help").css("opacity", .3);
+    	
+    	console.log("disabling events");
+    	$(document).off("mouseenter","#help");
+    	$(document).off("mouseleave","#help")
+    	console.log("done");
+    	
+    	helpOn = 1;
+    	
+		$.ajax({
+			url : '/help',
+			type : "get",
+			success : function(data) {
+				$("body").append(data);
+
+				
+			},
+		});
+		
     });
 
 
@@ -85,6 +104,9 @@ $(function() {
 		setTimeout(function() {
 			addHelpEventHandler();
 		}, 1000);
+		
+		// disable pics loading on scroll
+		helpOn = 0;
     });
     
     
@@ -124,6 +146,8 @@ $(function() {
      */
     $(window).scroll(function(ev) {
 
+    	if ( ! helpOn ) {
+    	
     	// check of we reached bottom
 		if ($(window).scrollTop() + $(window).height() == $(document).height()) {
 			
@@ -158,6 +182,7 @@ $(function() {
 				lock = undefined;
 			}, 700);
 		}
+    	}
 	});
 
 
@@ -198,6 +223,13 @@ $(function() {
 	    	$("#imgFrame").remove();
 	    	$("#navFrame").remove();
 	    	enableScroll();
+	    	
+			setTimeout(function() {
+				addHelpEventHandler();
+			}, 1000);
+			
+			// disable pics loading on scroll
+			helpOn = 0;
 		}
 	});
 

@@ -2,6 +2,8 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+@import url(https://fonts.googleapis.com/css?family=Gruppo);
 /* line 5, ../../../../../../../../var/lib/gems/2.3.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -67,12 +69,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block;
 }
 
-/* line 9, ../sass/screen.scss */
+/* line 14, ../sass/screen.scss */
 :focus {
   outline: 0;
 }
 
-/* line 11, ../sass/screen.scss */
+/* line 16, ../sass/screen.scss */
 body {
   width: 100%;
   height: 100%;
@@ -80,14 +82,14 @@ body {
   background-color: black;
 }
 
-/* line 18, ../sass/screen.scss */
+/* line 23, ../sass/screen.scss */
 img.preview {
   float: left;
   /*     opacity : 0; */
   /*     width : 150px; */
 }
 
-/* line 24, ../sass/screen.scss */
+/* line 29, ../sass/screen.scss */
 img.fullPic {
   position: relative;
   max-width: 100%;
@@ -96,19 +98,19 @@ img.fullPic {
   box-shadow: 100px 0 200px rgba(0, 0, 0, 0.4), -100px 0 200px rgba(0, 0, 0, 0.4);
 }
 
-/* line 33, ../sass/screen.scss */
+/* line 38, ../sass/screen.scss */
 div.previewWrapper {
   float: left;
   overflow: hidden;
 }
 
-/* line 39, ../sass/screen.scss */
+/* line 44, ../sass/screen.scss */
 #frame {
   position: relative;
   z-index: 0;
 }
 
-/* line 41, ../sass/screen.scss */
+/* line 46, ../sass/screen.scss */
 .scrollbar-measure {
   width: 100px;
   height: 100px;
@@ -117,12 +119,12 @@ div.previewWrapper {
   top: -9999px;
 }
 
-/* line 49, ../sass/screen.scss */
+/* line 54, ../sass/screen.scss */
 h1 {
   text-align: center;
 }
 
-/* line 51, ../sass/screen.scss */
+/* line 56, ../sass/screen.scss */
 #imgFrame {
   position: absolute;
   top: 0;
@@ -133,7 +135,7 @@ h1 {
   /* 	border : 1px solid red; */
 }
 
-/* line 61, ../sass/screen.scss */
+/* line 66, ../sass/screen.scss */
 #navFrame {
   position: absolute;
   top: 0;
@@ -142,7 +144,7 @@ h1 {
   z-index: 20;
 }
 
-/* line 70, ../sass/screen.scss */
+/* line 75, ../sass/screen.scss */
 a.next {
   float: right;
   top: 0;
@@ -151,7 +153,7 @@ a.next {
   position: relative;
 }
 
-/* line 78, ../sass/screen.scss */
+/* line 83, ../sass/screen.scss */
 a.prev {
   float: left;
   top: 0;
@@ -160,7 +162,7 @@ a.prev {
   position: relative;
 }
 
-/* line 86, ../sass/screen.scss */
+/* line 91, ../sass/screen.scss */
 #close, #help {
   opacity: 0;
   position: absolute;
@@ -177,11 +179,58 @@ a.prev {
   background-color: #666;
 }
 
-/* line 100, ../sass/screen.scss */
+/* line 105, ../sass/screen.scss */
 .icon-cancel, .icon-help {
   color: black;
   line-height: 50px;
   font-size: 30px;
+}
+
+/* line 112, ../sass/screen.scss */
+.table {
+  display: table;
+}
+
+/* line 114, ../sass/screen.scss */
+.piow-cell {
+  color: #ddd;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  display: table-cell;
+  border: 1px solid white;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* line 125, ../sass/screen.scss */
+.piow-cell div {
+  text-align: left;
+  width: 80%;
+  border: 1px solid yellow;
+  margin: auto;
+  max-width: 600px;
+}
+
+/* line 134, ../sass/screen.scss */
+.piow-cell div p {
+  line-height: 1.2em;
+  font-family: 'Gruppo', cursive;
+  font-size: 150%;
+}
+
+/* line 140, ../sass/screen.scss */
+.piow-cell div p.answer {
+  padding-left: 10px;
+  margin-bottom: 5px;
+  color: #eee;
+  font-size: 110%;
+}
+
+/* line 147, ../sass/screen.scss */
+.piow-cell h1 {
+  font-size: 200%;
+  font-weight: 300;
+  margin-bottom: 20px;
 }
 
 /* eof */

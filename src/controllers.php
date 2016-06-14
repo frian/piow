@@ -32,6 +32,14 @@ $app->get('/{page}/{numpics}', function($page, $numpics) use ($app, $rootDir, $i
 });
 
 
+
+$app->get('/help', function() use ($app) {
+
+	return $app['twig']->render('help.twig', array());
+})
+->bind('help');
+
+
 $app->error(function (\Exception $e, $code) use ($app) {
 
     if ($app['debug']) {

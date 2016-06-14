@@ -384,15 +384,15 @@ function animateButtonLoad(button) {
 	var anim = {opacity: 1};
 	var anim2 = {opacity: .3};
 
-	button.animate( anim, 1000 ).delay(2000).animate( anim2, 2000 );
+	button.animate( anim, 500 ).delay(1000).animate( anim2, 1000 );
 
 	setTimeout(function() {
 		button.css("background-color", "red")
-	}, 2900);
+	}, 1300);
 
 	setTimeout(function() {
 		button.css("background-color", "#666")
-	}, 4000);
+	}, 2500);
 }
 
 
@@ -404,13 +404,13 @@ function animateButtonLoad(button) {
 function addHelpEventHandler() {
 
     $(document).on("mouseenter","#help",function(e) {
-    	$(this).animate( {opacity: 1} , 1000 );
+    	$(this).animate( {opacity: 1} , 500 );
     });
     
     $(document).on("mouseleave","#help",function(e) {
-    	$(this).delay(2000).animate( {opacity: .3} , 1000 );
-    	
+    	$(this).delay(1000).animate( {opacity: .3} , 500 );
     });
+    console.log("enabling events");
 }
 
 

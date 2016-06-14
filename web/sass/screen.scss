@@ -6,6 +6,11 @@
 @import "compass/reset";
 @import "compass/css3/border-radius";
 
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+
+
+@import url(https://fonts.googleapis.com/css?family=Gruppo);
+
 :focus {outline:0;}
 
 body {
@@ -103,4 +108,43 @@ a.prev {
 	font-size : 30px;
 }
 
+
+.table { display : table }
+
+.piow-cell { 
+	
+	color : #ddd;
+	font-family: 'Lato', sans-serif;
+	font-weight : 300;
+	display : table-cell;
+	border : 1px solid white;
+	text-align : center;
+	vertical-align : middle;
+}
+
+.piow-cell div { 
+	text-align : left;
+	width : 80%;
+	border : 1px solid yellow;
+	margin : auto;
+	max-width : 600px;
+}
+
+
+.piow-cell div p { 
+	line-height : 1.2em;
+	font-family: 'Gruppo', cursive;
+	font-size : 150%;
+}
+
+.piow-cell div p.answer {
+	padding-left : 10px;
+	margin-bottom : 5px;
+	color : #eee;
+	font-size : 110%;
+}
+
+.piow-cell h1 { font-size : 200%; font-weight : 300; margin-bottom : 20px; }
+
 /* eof */
+
