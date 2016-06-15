@@ -124,7 +124,7 @@ $(function() {
 	$(window).resize(function() {
 
 		$( "#frame" ).css("opacity", 0);
-		$( "#frame" ).empty();
+//		$( "#frame" ).empty();
 		
 			if (window.RT) {
 				clearTimeout(window.RT);
@@ -139,7 +139,7 @@ $(function() {
 				}
 
 				
-				$( "#frame" ).empty();
+
 				done = 0;
 				page = 1;
 
@@ -148,7 +148,7 @@ $(function() {
 				_init("reload");
 				
 				if ( imageOn ) {
-					
+					$( "#frame" ).empty();					
 					var img = _getImage("reload");
 					img.src= path;
 					$("#imgFrame").html(img);
