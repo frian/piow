@@ -92,7 +92,7 @@ function navigateImage(direction) {
  * 
  * @returns {___anonymous994_996}
  */
- function _getImage(path) {
+ function _getImage() {
 
 
 	// createa new image
@@ -162,9 +162,9 @@ function getPicsPerScreen(reload) {
 
 		var scrollWidth = getScrollWidth();
 
-		if ( ! reload ) {
+//		if ( ! reload ) {
 			width -= scrollWidth;
-		}
+//		}
 
 		[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = _getGridInfos(width,height);
 	}

@@ -3,6 +3,7 @@ $(function() {
 	var done = 0; // flag : 1 if all images are loaded
 	var page = 1; // page number
 	var helpOn = 0; // flag
+	var imageOn = 0; // flag
 
 	var numPics, previewWidth, gridHeight;
 
@@ -22,7 +23,9 @@ $(function() {
     	
     	// remove help mouse hover events
     	$(document).off("mouseenter","#help");
-    	$(document).off("mouseleave","#help")
+    	$(document).off("mouseleave","#help");
+    	
+    	imageOn = 1;
     });
 	
     
@@ -120,11 +123,21 @@ $(function() {
 	 */
 	$(window).resize(function() {
 
+		$( "#frame" ).css("opacity", 0);
+		$( "#frame" ).empty();
+		
 			if (window.RT) {
 				clearTimeout(window.RT);
 			}
 	
 			window.RT = setTimeout(function()  {
+
+				var path;
+				if ( imageOn ) {
+					path = $(".fullPic").attr('src');
+					$(".fullPic").remove();
+				}
+
 				
 				$( "#frame" ).empty();
 				done = 0;
@@ -134,8 +147,16 @@ $(function() {
 				
 				_init("reload");
 				
-			}, 100);
-
+				if ( imageOn ) {
+					
+					var img = _getImage("reload");
+					img.src= path;
+					$("#imgFrame").html(img);
+				}
+				
+			}, 500);
+			
+			$( "#frame" ).css("opacity", 1);
 	});
 
 
@@ -171,7 +192,7 @@ $(function() {
 		var reload = reload || 0;
 
 		// get infos on previews grid
-		[ numPics, previewWidth, gridHeight ] = getPicsPerScreen("reload");
+		[ numPics, previewWidth, gridHeight ] = getPicsPerScreen(reload);
 	
 		// set frame height
 		$('#frame').css('height', gridHeight);
@@ -191,7 +212,9 @@ $(function() {
 	
 		// add help button handlers
 		addHelpHoverHandler();
-	    addHelpClickHandler();
+		if ( ! reload ) {
+			addHelpClickHandler();
+		}
 	}
 	
 	function _reloadInNav(last) {
@@ -224,8 +247,10 @@ $(function() {
 		    addHelpClickHandler()
 		}, 500);
 		
-		// disable pics loading on scroll
+		// enable pics loading on scroll
 		helpOn = 0;
+		
+		imageOn = 1;
 		
 		$("#help").css("opacity", .3);
 	}
@@ -236,9 +261,9 @@ $(function() {
 	 * result : show help
 	 */
 	function addHelpClickHandler() {
-
+console.log("add help click handler");
 	    $(document).on("click","#help",function(e) {
-	    	
+console.log("run help click handler");
 	    	$(document).off("mouseenter","#help");
 	    	$(document).off("mouseleave","#help")
 	    	
