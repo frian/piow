@@ -235,6 +235,14 @@ $(function() {
 				success : function(data) {
 					$("body").append(data);
 					animateButtonLoad($("#close"));
+					
+				    $(document).on("mouseenter","#close",function(e) {
+				    	$(this).animate( {opacity: 1} , 500 );
+				    });
+				    
+				    $(document).on("mouseleave","#close",function(e) {
+				    	$(this).delay(1000).animate( {opacity: .3} , 500 );
+				    });
 				},
 			});
 			
