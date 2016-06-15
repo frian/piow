@@ -414,36 +414,6 @@ function addHelpHoverHandler() {
 
 
 /**
- * trigger : click on help
- * 
- * result : show help
- */
-function addHelpClickHandler() {
-
-    $(document).on("click","#help",function(e) {
-    	
-//    	$("#help").css("opacity", .3);
-    	
-    	$(document).off("mouseenter","#help");
-    	$(document).off("mouseleave","#help")
-    	
-    	helpOn = 1;
-    	
-		$.ajax({
-			url : '/help',
-			type : "get",
-			success : function(data) {
-				$("body").append(data);
-				animateButtonLoad($("#close"));
-			},
-		});
-		
-    });
-}
-
-
-
-/**
  * -- Prevent scrolling -------------------------------------------------------
  */
 

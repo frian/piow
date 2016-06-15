@@ -18,16 +18,16 @@ $(function() {
 	// increment page number
 	page++;
 
-	
+	// add help button
 	var helpButton = $("<div/>").attr( 'id', 'help' ).html("<i class='icon-help'></i>");
-
 	$('#frame').append(helpButton);
 
+	// animate help button
 	animateButtonLoad($("#help"));
 
+	// add help button handlers
 	addHelpHoverHandler();
-
-    addHelpClickHandler()
+    addHelpClickHandler();
 
 
 	/**
@@ -38,11 +38,11 @@ $(function() {
     $(document).on("click","a:not( .next, .prev )",function(e) {
     	
     	e.preventDefault();
-    	$("#action").remove();
     	$(this).addClass('current'); // empty class used to find next and previous image
-    	showImage(this);
     	disableScroll();
+    	showImage(this);
     	
+    	// remove help mouse hover events
     	$(document).off("mouseenter","#help");
     	$(document).off("mouseleave","#help")
     });
@@ -55,22 +55,7 @@ $(function() {
      */
     $(document).on("click","#close",function(e) {
     	
-    	$(document).off("click","#help");
-    	
-    	$("#imgFrame").remove();
-    	$("#navFrame").remove();
-
-    	enableScroll();
-
-		setTimeout(function() {
-			addHelpHoverHandler();
-		    addHelpClickHandler()
-		}, 500);
-		
-		// disable pics loading on scroll
-		helpOn = 0;
-		
-		$("#help").css("opacity", .3);
+    	_handleClose();
     });
     
     
@@ -184,22 +169,16 @@ $(function() {
 			navigateImage('prev');
 		}
 		else if (e.which == 88) {
-			$("#help").css("opacity", .3);
-	    	$("#imgFrame").remove();
-	    	$("#navFrame").remove();
-	    	enableScroll();
-	    	
-			setTimeout(function() {
-//				addHelpHoverHandler();
-//			    addHelpClickHandler()
-			}, 500);
-	    	
-			// disable pics loading on scroll
-			helpOn = 0;
+
+			_handleClose();
 		}
 	});
 
 
+	/**
+	 * lazy internal functions
+	 * 
+	 */
 	function _reloadInNav(temp) {
 
     	if (temp == 1) {
@@ -213,6 +192,53 @@ $(function() {
     			}, 500);
     		}
     	}
+	}
+	
+	
+	function _handleClose() {
+		
+    	$(document).off("click","#help");
+    	
+    	$("#imgFrame").remove();
+    	$("#navFrame").remove();
+
+    	enableScroll();
+
+		setTimeout(function() {
+			addHelpHoverHandler();
+		    addHelpClickHandler()
+		}, 500);
+		
+		// disable pics loading on scroll
+		helpOn = 0;
+		
+		$("#help").css("opacity", .3);
+	}
+
+	/**
+	 * trigger : click on help
+	 * 
+	 * result : show help
+	 */
+	function addHelpClickHandler() {
+
+	    $(document).on("click","#help",function(e) {
+	    	
+	    	$(document).off("mouseenter","#help");
+	    	$(document).off("mouseleave","#help")
+	    	
+	    	helpOn = 1;
+	    	
+			$.ajax({
+				url : '/help',
+				type : "get",
+				success : function(data) {
+					$("body").append(data);
+					animateButtonLoad($("#close"));
+				},
+			});
+			
+	    });
 	}
 });
 
