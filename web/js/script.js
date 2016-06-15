@@ -154,11 +154,11 @@ $(function() {
 			
 			_init("reload");
 			
-			setTimeout(function() {
-				disableScroll();
-			}, 100);
-			
 			if ( imageOn ) {
+				
+				setTimeout(function() {
+					disableScroll();
+				}, 100);
 				
 				var img = _getImage("reload");
 				img.src= path;
