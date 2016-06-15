@@ -123,40 +123,55 @@ $(function() {
 	 */
 	$(window).resize(function() {
 
+		$( ".fullPic" ).css("opacity", 0);
 		$( "#frame" ).css("opacity", 0);
-//		$( "#frame" ).empty();
-		
-			if (window.RT) {
-				clearTimeout(window.RT);
-			}
-	
-			window.RT = setTimeout(function()  {
 
-				var path;
-				if ( imageOn ) {
-					path = $(".fullPic").attr('src');
-					$(".fullPic").remove();
-				}
+		if (window.RT) {
+			clearTimeout(window.RT);
+		}
 
-				
-
-				done = 0;
-				page = 1;
-
-				console.log("resize");
-				
-				_init("reload");
-				
-				if ( imageOn ) {
-					$( "#frame" ).empty();					
-					var img = _getImage("reload");
-					img.src= path;
-					$("#imgFrame").html(img);
-				}
-				
-			}, 500);
+		window.RT = setTimeout(function()  {
 			
-			$( "#frame" ).css("opacity", 1);
+			var current = $(".current").attr("href");
+			
+			console.log(current);
+
+			$( "#frame" ).empty();
+			
+			var path;
+			if ( imageOn ) {
+				path = $(".fullPic").attr('src');
+				$(".fullPic").remove();
+			}
+
+			$( "#frame" ).empty();
+			done = 0;
+			page = 1;
+
+			console.log("resize");
+			
+			enableScroll();
+			
+			_init("reload");
+			
+			setTimeout(function() {
+				disableScroll();
+			}, 100);
+			
+			if ( imageOn ) {
+				
+				var img = _getImage("reload");
+				img.src= path;
+				$("#imgFrame").html(img);
+				setTimeout(function() {
+					console.log("adding current class")
+					$("a[href='" + current + "']").addClass("current");
+				}, 1000);
+				
+			}
+			$( "#frame" ).css("opacity" , 1);				
+		}, 500);
+
 	});
 
 
@@ -250,7 +265,7 @@ $(function() {
 		// enable pics loading on scroll
 		helpOn = 0;
 		
-		imageOn = 1;
+		imageOn = 0;
 		
 		$("#help").css("opacity", .3);
 	}

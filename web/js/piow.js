@@ -162,10 +162,11 @@ function getPicsPerScreen(reload) {
 
 		var scrollWidth = getScrollWidth();
 
-//		if ( ! reload ) {
+		if ( ! reload ) {
+		
 			width -= scrollWidth;
-//		}
 
+		}
 		[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = _getGridInfos(width,height);
 	}
 	
