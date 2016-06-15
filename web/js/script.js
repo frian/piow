@@ -6,29 +6,7 @@ $(function() {
 
 	var numPics, previewWidth, gridHeight;
 
-	// get infos on previews grid
-	[ numPics, previewWidth, gridHeight ] = getPicsPerScreen();
-
-	// set frame height
-	$('#frame').css('height', gridHeight);
-	
-	// load previews
-	done = loadPics(page, numPics, previewWidth, done);
-	
-	// increment page number
-	page++;
-
-	// add help button
-	var helpButton = $("<div/>").attr( 'id', 'help' ).html("<i class='icon-help'></i>");
-	$('#frame').append(helpButton);
-
-	// animate help button
-	animateButtonLoad($("#help"));
-
-	// add help button handlers
-	addHelpHoverHandler();
-    addHelpClickHandler();
-
+	_init();
 
 	/**
 	 * trigger : click on a preview
@@ -82,9 +60,9 @@ $(function() {
     // show next image
     $(document).on("click",".next",function(e) {
     	e.preventDefault();
-    	temp = navigateImage('next');
+    	last = navigateImage('next');
 
-    	 _reloadInNav(temp);
+    	 _reloadInNav(last);
     });
 
 
@@ -142,13 +120,22 @@ $(function() {
 	 */
 	$(window).resize(function() {
 
-		if (window.RT) {
-			clearTimeout(window.RT);
-		}
+			if (window.RT) {
+				clearTimeout(window.RT);
+			}
+	
+			window.RT = setTimeout(function()  {
+				
+				$( "#frame" ).empty();
+				done = 0;
+				page = 1;
 
-		window.RT = setTimeout(function()  {
-		    this.location.reload(false); /* false to get page from cache */
-		}, 10);
+				console.log("resize");
+				
+				_init("reload");
+				
+			}, 100);
+
 	});
 
 
@@ -162,8 +149,8 @@ $(function() {
 	$(document).keydown( function(e) {
 //		console.log(e.which);
 		if (e.which == 39) {
-	    	temp = navigateImage('next');
-	    	 _reloadInNav(temp);
+	    	last = navigateImage('next');
+	    	 _reloadInNav(last);
 		} else if (e.which == 37) {
 			
 			navigateImage('prev');
@@ -179,9 +166,37 @@ $(function() {
 	 * lazy internal functions
 	 * 
 	 */
-	function _reloadInNav(temp) {
+	function _init(reload) {
+		
+		var reload = reload || 0;
 
-    	if (temp == 1) {
+		// get infos on previews grid
+		[ numPics, previewWidth, gridHeight ] = getPicsPerScreen("reload");
+	
+		// set frame height
+		$('#frame').css('height', gridHeight);
+		
+		// load previews
+		done = loadPics(page, numPics, previewWidth, done);
+		
+		// increment page number
+		page++;
+	
+		// add help button
+		var helpButton = $("<div/>").attr( 'id', 'help' ).html("<i class='icon-help'></i>");
+		$('#frame').append(helpButton);
+	
+		// animate help button
+		animateButtonLoad($("#help"));
+	
+		// add help button handlers
+		addHelpHoverHandler();
+	    addHelpClickHandler();
+	}
+	
+	function _reloadInNav(last) {
+
+    	if (last == 1) {
     		
     		if ( ! done ) {
     			done = loadPics(page, numPics, previewWidth, done);

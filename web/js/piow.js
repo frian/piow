@@ -146,8 +146,10 @@ function navigateImage(direction) {
  * 
  * @returns {Array}
  */
-function getPicsPerScreen() {
+function getPicsPerScreen(reload) {
 
+	var reload = reload || 0;
+	
 	// get screen size
 	var width = $(window).width();
 	var height = $(window).height();
@@ -160,7 +162,9 @@ function getPicsPerScreen() {
 
 		var scrollWidth = getScrollWidth();
 
-		width -= scrollWidth;
+		if ( ! reload ) {
+			width -= scrollWidth;
+		}
 
 		[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = _getGridInfos(width,height);
 	}

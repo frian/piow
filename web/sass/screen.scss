@@ -6,10 +6,7 @@
 @import "compass/reset";
 @import "compass/css3/border-radius";
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
-
-
-@import url(https://fonts.googleapis.com/css?family=Gruppo);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300|Gruppo);
 
 :focus {outline:0;}
 
@@ -18,12 +15,11 @@ body {
     height : 100%;
     color : white;
     background-color : black;
+/*     overflow : hidden; */
 }
 
 img.preview {
     float : left;
-/*     opacity : 0; */
-/*     width : 150px; */
 }
 
 img.fullPic {
@@ -117,34 +113,58 @@ a.prev {
 	font-family: 'Lato', sans-serif;
 	font-weight : 300;
 	display : table-cell;
-	border : 1px solid white;
 	text-align : center;
 	vertical-align : middle;
 }
 
-.piow-cell div { 
+.piow-cell div.container { 
 	text-align : left;
-	width : 80%;
-	border : 1px solid yellow;
+	width : 90%;
+	border : 1px solid #333;
+	padding : 10px;
 	margin : auto;
 	max-width : 600px;
+	background : rgba(0, 0, 0, .8);
 }
 
+.piow-cell div.item {
+	border-bottom : 1px solid #666;
+    content:" ";
+    display:table;
+    clear:both;
+    
+    width : 100%;
+}
 
 .piow-cell div p { 
-	line-height : 1.2em;
 	font-family: 'Gruppo', cursive;
+	float : left;
+	width : 100%;
+	padding-left : 10px;
+	margin-bottom : 5px;
+	color : #eee;
+	font-size : 110%;
+
+}
+
+.piow-cell div p.title {
+	float : left;
+	width : 100%;
+	padding-left : 10px;
+	margin-bottom : 5px;
+	color : #eee;
 	font-size : 150%;
 }
 
-.piow-cell div p.answer {
+.piow-cell div p.shortcut {
 	padding-left : 10px;
 	margin-bottom : 5px;
 	color : #eee;
 	font-size : 110%;
 }
 
-.piow-cell h1 { font-size : 200%; font-weight : 300; margin-bottom : 20px; }
+
+.piow-cell h1 { font-size : 200%; font-weight : 300; margin : 10px 0; }
 
 /* eof */
 
