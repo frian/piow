@@ -37,7 +37,7 @@ div.previewWrapper {
 }
 
 
-#frame { position : relative; z-index : 0 }
+#frame { position : relative; z-index : 0; width: auto; margin: auto }
 
 .scrollbar-measure {
 	width: 100px;
@@ -107,8 +107,8 @@ a.prev {
 
 .table { display : table }
 
-.piow-cell { 
-	
+.piow-cell {
+
 	color : #ddd;
 	font-family: 'Lato', sans-serif;
 	font-weight : 300;
@@ -117,7 +117,7 @@ a.prev {
 	vertical-align : middle;
 }
 
-.piow-cell div.container { 
+.piow-cell div.container {
 	text-align : left;
 	width : 90%;
 	border : 1px solid #333;
@@ -132,11 +132,11 @@ a.prev {
     content:" ";
     display:table;
     clear:both;
-    
+
     width : 100%;
 }
 
-.piow-cell div p { 
+.piow-cell div p {
 	font-family: 'Gruppo', cursive;
 	float : left;
 	width : 100%;
@@ -167,4 +167,3 @@ a.prev {
 .piow-cell h1 { font-size : 200%; font-weight : 300; margin : 10px 0; }
 
 /* eof */
-

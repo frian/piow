@@ -30,7 +30,6 @@ function showImage(that) {
 
 	var close = $("<div/>").attr( 'id', 'close' ).html("<i class='icon-cancel'></i>");
 
-//	close.css('top', top);
 	navFrame.css('top', top);
 
 	navFrame.append(close);
@@ -93,7 +92,7 @@ function navigateImage(direction) {
  *
  * @returns {___anonymous994_996}
  */
- function _getImage() {
+function _getImage() {
 
 
 	// createa new image
@@ -152,7 +151,7 @@ function getPicsPerScreen(reload) {
 	reload = reload || 0;
 
 	// get screen size
-	var width = $(window).width();
+	var width = $("#frame").width();
 	var height = $(window).height();
 
 	// get grid infos
@@ -302,13 +301,13 @@ function _getGridInfos(width, height) {
 	var imageRatio = 0.75;
 
 	// get # pics per row
-	var picsPerRow = Math.ceil(width / previewWidth);
+	var picsPerRow = Math.floor(width / previewWidth);
 
 	// get preview width
 	previewWidth = parseInt(width / picsPerRow);
 
 	// get preview height
-	var previewHeight = Math.ceil(previewWidth * imageRatio);
+	var previewHeight = Math.floor(previewWidth * imageRatio);
 
 	// get # pics per row
 	var picsPerCol = parseInt(height / previewHeight) + 1;
