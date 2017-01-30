@@ -11,40 +11,40 @@ $(function() {
 
 	/**
 	 * trigger : click on a preview
-	 * 
+	 *
 	 * result : show image
 	 */
     $(document).on("click","a:not( .next, .prev )",function(e) {
-    	
+
     	e.preventDefault();
     	$(this).addClass('current'); // empty class used to find next and previous image
     	disableScroll();
     	showImage(this);
-    	
+
     	// remove help mouse hover events
     	$(document).off("mouseenter","#help");
     	$(document).off("mouseleave","#help");
-    	
+
     	imageOn = 1;
     });
-	
-    
+
+
     /**
      * trigger : click on close image
-     * 
+     *
      * result : close image frame
      */
     $(document).on("click","#close",function(e) {
-    	
+
     	_handleClose();
     });
-    
-    
+
+
     /**
      * trigger : click on prev link
-     * 
+     *
      * keyboard : left arrow
-     * 
+     *
      * result : show previous image
      */
     $(document).on("click",".prev",function(e) {
@@ -55,9 +55,9 @@ $(function() {
 
     /**
      * trigger : click on next link
-     * 
+     *
      * keyboard : right arrow
-     * 
+     *
      * result : show next image
      */
     // show next image
@@ -71,16 +71,16 @@ $(function() {
 
     /**
      * trigger : scroll
-     * 
+     *
      * result : load more previews
      */
     $(window).scroll(function(ev) {
 
     	if ( ! helpOn ) {
-    	
+
     	// check of we reached bottom
 		if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-			
+
 			// return if we have a lock
 			if (typeof lock != 'undefined' && lock) return;
 
@@ -104,9 +104,9 @@ $(function() {
 					done = loadPics(page, numPics, previewWidth, done);
 					page++;
 				}, 200);
-				
+
 			}
-			
+
 			// remove lock
 			setTimeout(function() {
 				lock = undefined;
@@ -118,7 +118,7 @@ $(function() {
 
 	/**
 	 * trigger : resize
-	 * 
+	 *
 	 * result : reload page
 	 */
 	$(window).resize(function() {
@@ -131,13 +131,13 @@ $(function() {
 		}
 
 		window.RT = setTimeout(function()  {
-			
+
 			var current = $(".current").attr("href");
-			
+
 			console.log(current);
 
 			$( "#frame" ).empty();
-			
+
 			var path;
 			if ( imageOn ) {
 				path = $(".fullPic").attr('src');
@@ -149,27 +149,27 @@ $(function() {
 			page = 1;
 
 			console.log("resize");
-			
+
 			enableScroll();
-			
+
 			_init("reload");
-			
+
 			if ( imageOn ) {
-				
+
 				setTimeout(function() {
 					disableScroll();
 				}, 100);
-				
+
 				var img = _getImage("reload");
 				img.src= path;
 				$("#imgFrame").html(img);
 				setTimeout(function() {
-					console.log("adding current class")
+					console.log("adding current class");
 					$("a[href='" + current + "']").addClass("current");
 				}, 1000);
-				
+
 			}
-			$( "#frame" ).css("opacity" , 1);				
+			$( "#frame" ).css("opacity" , 1);
 		}, 500);
 
 	});
@@ -177,7 +177,7 @@ $(function() {
 
 	/**
 	 * keyboard shortcuts
-	 * 
+	 *
 	 *   right arrow : show next image (39)
 	 *   left arrow : show previous image (37)
 	 *   x : close image frame (88)
@@ -188,7 +188,7 @@ $(function() {
 	    	last = navigateImage('next');
 	    	 _reloadInNav(last);
 		} else if (e.which == 37) {
-			
+
 			navigateImage('prev');
 		}
 		else if (e.which == 88) {
@@ -200,58 +200,58 @@ $(function() {
 
 	/**
 	 * lazy internal functions
-	 * 
+	 *
 	 */
 	function _init(reload) {
-		
-		var reload = reload || 0;
+
+		reload = reload || 0;
 
 		// get infos on previews grid
 		[ numPics, previewWidth, gridHeight ] = getPicsPerScreen(reload);
-	
+
 		// set frame height
 		$('#frame').css('height', gridHeight);
-		
+
 		// load previews
 		done = loadPics(page, numPics, previewWidth, done);
-		
+
 		// increment page number
 		page++;
-	
+
 		// add help button
 		var helpButton = $("<div/>").attr( 'id', 'help' ).html("<i class='icon-help'></i>");
 		$('#frame').append(helpButton);
-	
+
 		// animate help button
 		animateButtonLoad($("#help"));
-	
+
 		// add help button handlers
 		addHelpHoverHandler();
 		if ( ! reload ) {
 			addHelpClickHandler();
 		}
 	}
-	
+
 	function _reloadInNav(last) {
 
     	if (last == 1) {
-    		
+
     		if ( ! done ) {
     			done = loadPics(page, numPics, previewWidth, done);
     			page++;
-    			
+
     			setTimeout(function() {
     				navigateImage('next');
     			}, 500);
     		}
     	}
 	}
-	
-	
+
+
 	function _handleClose() {
-		
+
     	$(document).off("click","#help");
-    	
+
     	$("#imgFrame").remove();
     	$("#navFrame").remove();
 
@@ -259,20 +259,20 @@ $(function() {
 
 		setTimeout(function() {
 			addHelpHoverHandler();
-		    addHelpClickHandler()
+		    addHelpClickHandler();
 		}, 500);
-		
+
 		// enable pics loading on scroll
 		helpOn = 0;
-		
+
 		imageOn = 0;
-		
-		$("#help").css("opacity", .3);
+
+		$("#help").css("opacity", 0.3);
 	}
 
 	/**
 	 * trigger : click on help
-	 * 
+	 *
 	 * result : show help
 	 */
 	function addHelpClickHandler() {
@@ -280,27 +280,27 @@ console.log("add help click handler");
 	    $(document).on("click","#help",function(e) {
 console.log("run help click handler");
 	    	$(document).off("mouseenter","#help");
-	    	$(document).off("mouseleave","#help")
-	    	
+	    	$(document).off("mouseleave","#help");
+
 	    	helpOn = 1;
-	    	
+
 			$.ajax({
 				url : '/help',
 				type : "get",
 				success : function(data) {
 					$("body").append(data);
 					animateButtonLoad($("#close"));
-					
+
 				    $(document).on("mouseenter","#close",function(e) {
 				    	$(this).animate( {opacity: 1} , 500 );
 				    });
-				    
+
 				    $(document).on("mouseleave","#close",function(e) {
-				    	$(this).delay(1000).animate( {opacity: .3} , 500 );
+				    	$(this).delay(1000).animate( {opacity: 0.3} , 500 );
 				    });
 				},
 			});
-			
+
 	    });
 	}
 });

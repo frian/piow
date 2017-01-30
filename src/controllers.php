@@ -19,13 +19,21 @@ $app->get('/{page}/{numpics}', function($page, $numpics) use ($app, $rootDir, $i
 	$imagesBasePath = $rootDir.$imagesDir;
 
 	if (!is_dir($imagesBasePath)) {
-		return $app['twig']->render('errors/config.twig');
+        
+		// return $app['twig']->render('errors/config.twig');
+
+        return $app['twig']->render('errors/config.twig', array(
+            'msg1' => __DIR__,
+            'msg2' => $rootDir,
+            'msg3' => $imagesBasePath
+        ));
+
 	}
 
 	$offset = ($page - 1) * $numpics;
-	
+
 	$previews = preg_grep('/^prev-/', scandir($imagesBasePath));
-	
+
 	$previews = array_slice($previews, $offset, $numpics);
 
 	return new JsonResponse($previews);

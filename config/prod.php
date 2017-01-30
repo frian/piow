@@ -10,12 +10,12 @@
  */
 $imagesDir = '/images/';
 
-// $imagesDir = '/<subdomain>/<optionnal folder>/images/';
+// $imagesDir = '/<optionnal subdomain>/<optionnal folder>/images/';
 
 
 /*
  * configuration for production environment
- * 
+ *
  */
 
 // enable http caching

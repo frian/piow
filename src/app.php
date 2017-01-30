@@ -5,7 +5,6 @@ use Silex\Provider;
 
 $app = new Silex\Application();
 
-$app->register(new Provider\SessionServiceProvider());
 
 /*
  *  -- register service controller --------------------------------------------
@@ -24,32 +23,6 @@ $app->register(new Provider\TwigServiceProvider());
  */
 $app->register(new Provider\HttpFragmentServiceProvider());
 
-
-/*
- *  -- register form generator ------------------------------------------------
-*/
-$app->register(new Provider\FormServiceProvider());
-
-/*
- *  -- register swiftmailer ---------------------------------------------------
-*/
-$app->register(new Provider\SwiftmailerServiceProvider());
-
-// configure smtp
-$app['swiftmailer.options'] =
-array(
-		'host'       => 'mail.at-info.ch',
-		'port'       => 587,
-		'username'   => 'andre@at-info.ch',
-		'password'   => 'br@ind3ad',
-		'encryption' => null,
-		'auth_mode'  => null
-);
-
-/*
- *  -- register validator -----------------------------------------------------
-*/
-$app->register(new Provider\ValidatorServiceProvider());
 
 /*
  *  -- register translator ----------------------------------------------------
@@ -71,15 +44,6 @@ $app->before(function () use ($app) {
 	  'validators');
     
 	  $app['translator']->setLocale('fr');
-});
-
-
-
-$app['twig'] = $app->extend('twig', function($twig, $app) {
-
-    // add custom globals, filters, tags, ...
-
-    return $twig;
 });
 
 
