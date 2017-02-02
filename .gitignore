@@ -4,6 +4,7 @@ var/*
 
 # app files
 web/images/*
+!web/images/.gitkeep
 #compass
 web/.sass-cache/
 # Configuration files
