@@ -1,16 +1,7 @@
 <?php
 
-/*
- *  Gallery directory
- *
- *    standard configuration
- *    should work in most cases
- *    if not commment the following line
- *    and uncomment line 13 below
- */
-$imagesDir = '/images/';
-
-// $imagesDir = '/<optionnal subdomain>/<optionnal folder>/images/';
+// include the piow configuration
+require __DIR__.'/piow.php';
 
 
 /*
