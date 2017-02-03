@@ -167,13 +167,24 @@ a.prev {
 
 .piow-cell h1 { font-size : 200%; font-weight : 300; margin : 10px 0; }
 
-.error {
-    position: absolute;
+table.error {
     width: 100%;
     font-size : 200%;
     font-family: 'Lato', sans-serif;
-    text-align: center;
     margin-top: 150px;
+    border: 1px solid red;
 }
 
+table.error td {
+    text-align: center;
+    padding: 5px 0;
+}
+
+.errorItem {
+    color: #fccc00;
+}
+
+a, a:visited {
+    color: #fccc00;
+}
 /* eof */

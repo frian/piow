@@ -9,6 +9,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $app->get('/', function() use ($app, $rootDir, $imagesDir) {
 
+    $imagesBasePath = $rootDir.$imagesDir;
+
+    if (!is_dir($imagesBasePath)) {
+
+        return $app['twig']->render('errors/config.twig', array(
+            'imagesDir' => $imagesDir,
+            'rootDir'   => $rootDir
+        ));
+	}
+
     return $app['twig']->render('index.twig', array());
 })
 ->bind('home');
@@ -18,16 +28,12 @@ $app->get('/{page}/{numpics}', function($page, $numpics) use ($app, $rootDir, $i
 
 	$imagesBasePath = $rootDir.$imagesDir;
 
-	if (!is_dir($imagesBasePath)) {
-        
-		// return $app['twig']->render('errors/config.twig');
+    if (!is_dir($imagesBasePath)) {
 
         return $app['twig']->render('errors/config.twig', array(
-            'msg1' => __DIR__,
-            'msg2' => $rootDir,
-            'msg3' => $imagesBasePath
+            'imagesDir' => $imagesDir,
+            'rootDir'   => $rootDir
         ));
-
 	}
 
 	$offset = ($page - 1) * $numpics;

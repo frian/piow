@@ -2,22 +2,18 @@
 
 {% block content %}
 
-getCwd() {{ msg1 }} <br>
-rootDir {{ msg2 }} <br>
-{{ msg3 }} <br>
-
-<table id="error">
+<table class="error">
   <tr>
     <td>configuration error,</td>
   </tr>
   <tr>
-    <td>galleries not found,</td>
+    <td>folder <span class="errorItem">{{ imagesDir }}</span> not found </td>
   </tr>
   <tr>
-    <td>check file config/prod.php</td>
+    <td>in <span class="errorItem">{{ rootDir }}</span> ! </td>
   </tr>
   <tr>
-    <td>line 18 - 23.</td>
+    <td>check file config/piow.php</td>
   </tr>
   <tr>
     <td>and <a class="error" href="/">retry</a></td>

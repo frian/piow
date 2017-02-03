@@ -259,13 +259,28 @@ a.prev {
 }
 
 /* line 170, ../sass/screen.scss */
-.error {
-  position: absolute;
+table.error {
   width: 100%;
   font-size: 200%;
   font-family: 'Lato', sans-serif;
-  text-align: center;
   margin-top: 150px;
+  border: 1px solid red;
+}
+
+/* line 178, ../sass/screen.scss */
+table.error td {
+  text-align: center;
+  padding: 5px 0;
+}
+
+/* line 183, ../sass/screen.scss */
+.errorItem {
+  color: #fccc00;
+}
+
+/* line 187, ../sass/screen.scss */
+a, a:visited {
+  color: #fccc00;
 }
 
 /* eof */

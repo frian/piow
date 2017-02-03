@@ -14,7 +14,7 @@ $(function() {
 	 *
 	 * result : show image
 	 */
-    $(document).on("click","a:not( .next, .prev )",function(e) {
+    $(document).on("click","a:not( .next, .prev, .error )",function(e) {
 
         var imageLink = $(this);
 
