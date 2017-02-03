@@ -1,8 +1,8 @@
 $(function() {
 
-	var done = 0; // flag : 1 if all images are loaded
-	var page = 1; // page number
-	var helpOn = 0; // flag
+	var done = 0;    // flag : 1 if all images are loaded
+	var page = 1;    // page number
+	var helpOn = 0;  // flag
 	var imageOn = 0; // flag
 
 	var numPics, previewWidth, gridHeight;
@@ -16,10 +16,12 @@ $(function() {
 	 */
     $(document).on("click","a:not( .next, .prev )",function(e) {
 
+        var imageLink = $(this);
+
     	e.preventDefault();
-    	$(this).addClass('current'); // empty class used to find next and previous image
+    	imageLink.addClass('current'); // empty class used to find next and previous image
     	disableScroll();
-    	showImage(this);
+    	showImage(imageLink.attr('href'));
 
     	// remove help mouse hover events
     	$(document).off("mouseenter","#help");
@@ -60,12 +62,9 @@ $(function() {
      *
      * result : show next image
      */
-    // show next image
     $(document).on("click",".next",function(e) {
     	e.preventDefault();
-    	last = navigateImage('next');
-
-    	 _reloadInNav(last);
+    	navigateImage('next');
     });
 
 
@@ -134,8 +133,6 @@ $(function() {
 
 			var current = $(".current").attr("href");
 
-			console.log(current);
-
 			$( "#frame" ).empty();
 
 			var path;
@@ -147,8 +144,6 @@ $(function() {
 			$( "#frame" ).empty();
 			done = 0;
 			page = 1;
-
-			console.log("resize");
 
 			enableScroll();
 
@@ -164,7 +159,6 @@ $(function() {
 				img.src= path;
 				$("#imgFrame").html(img);
 				setTimeout(function() {
-					console.log("adding current class");
 					$("a[href='" + current + "']").addClass("current");
 				}, 1000);
 
@@ -183,16 +177,13 @@ $(function() {
 	 *   x : close image frame (88)
 	 */
 	$(document).keydown( function(e) {
-//		console.log(e.which);
-		if (e.which == 39) {
-	    	last = navigateImage('next');
-	    	 _reloadInNav(last);
-		} else if (e.which == 37) {
-
+        console.log(e.which);
+		if (e.which == 39) {                          // -- arrow right
+	    	navigateImage('next');
+		} else if (e.which == 37) {                   // -- arrow left
 			navigateImage('prev');
 		}
-		else if (e.which == 88) {
-
+		else if (e.which == 88 || e.which == 27) {    // -- x or ESC
 			_handleClose();
 		}
 	});
@@ -207,7 +198,7 @@ $(function() {
 		reload = reload || 0;
 
 		// get infos on previews grid
-		[ numPics, previewWidth, gridHeight ] = getPicsPerScreen(reload);
+		[ numPics, previewWidth, gridHeight ] = getPicsInfos(reload);
 
 		// set frame height
 		$('#frame').css('height', gridHeight);
@@ -232,22 +223,25 @@ $(function() {
 		}
 	}
 
-	function _reloadInNav(last) {
 
-    	if (last == 1) {
+	// function _reloadInNav(last) {
+    //     console.log("last : " + last)
+    // 	if (last == 1) {
+    //
+    // 		if ( ! done ) {
+    // 			done = loadPics(page, numPics, previewWidth, done);
+    // 			page++;
+    //
+    // 			setTimeout(function() {
+    // 				navigateImage('next');
+    // 			}, 500);
+    // 		}
+    // 	}
+	// }
 
-    		if ( ! done ) {
-    			done = loadPics(page, numPics, previewWidth, done);
-    			page++;
-
-    			setTimeout(function() {
-    				navigateImage('next');
-    			}, 500);
-    		}
-    	}
-	}
-
-
+    /**
+	 * close help
+	 */
 	function _handleClose() {
 
     	$(document).off("click","#help");
@@ -271,26 +265,37 @@ $(function() {
 	}
 
 	/**
-	 * trigger : click on help
-	 *
-	 * result : show help
+	 * add help button click handler
 	 */
 	function addHelpClickHandler() {
-console.log("add help click handler");
+
+        /**
+    	 * trigger : click on help
+    	 *
+    	 * result : show help
+    	 */
 	    $(document).on("click","#help",function(e) {
-console.log("run help click handler");
+
+            // -- remove mouseenter and mouseleave listeners
 	    	$(document).off("mouseenter","#help");
 	    	$(document).off("mouseleave","#help");
 
+            // -- set help flag
 	    	helpOn = 1;
 
+            // -- get help
 			$.ajax({
 				url : '/help',
 				type : "get",
 				success : function(data) {
+
+                    // -- append help
 					$("body").append(data);
+
+                    // -- animate close button
 					animateButtonLoad($("#close"));
 
+                    // -- add mouseenter and mouseleave listeners
 				    $(document).on("mouseenter","#close",function(e) {
 				    	$(this).animate( {opacity: 1} , 500 );
 				    });

@@ -396,7 +396,6 @@ function getImageOrientation(image) {
  * @returns     {Interger}
  */
 function getScreenWidth() {
-    console.log($(window).width());
     return $(window).width();
 }
 
@@ -434,9 +433,7 @@ function animateButtonLoad(button) {
 
 
 /**
- * trigger : hover over help
- *
- * result : show help button
+ * add help button hover handler
  */
 function addHelpHoverHandler() {
 
