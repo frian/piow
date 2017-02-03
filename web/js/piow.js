@@ -1,139 +1,158 @@
 /*jshint esversion: 6 */
+
 /**
+ * show an image when a preview is clicked
  *
- * @param that
+ * @param       imagePath
  */
-function showImage(that) {
+function showImage(imagePath) {
 
-
-	// create the overlay frame
+    /*
+     * Create and position overlay frame
+     */
+	// -- create the frame
 	var frame = $("<div/>").attr('id', 'imgFrame');
 
-	// get and set top position of the frame
+	// -- get and set top position of the frame
 	var top  = window.pageYOffset || document.documentElement.scrollTop;
 	frame.css('top', top);
 
+
+    /*
+     * Get image and display
+     */
+    // -- get styled image object
 	var img = _getImage();
 
-	// put image in frame and append to body
+    // -- load image
+	img.src = imagePath;
+
+	// -- put image in frame and append to body
 	frame.html(img).appendTo($('body'));
 
-	// create the navigation frame
+
+    /*
+     * Create navigation frame
+     */
+	// -- create the navigation frame
 	var navFrame = $("<div/>").attr('id', 'navFrame');
 
-	// add navigation links
+    // -- set position
+    navFrame.css('top', top);
+
+	// -- create and add navigation links
 	var nextLink = $("<a/>").attr( 'href', '#' ).addClass("next");
 	var prevLink = $("<a/>").attr( 'href', '#' ).addClass("prev");
 
 	navFrame.append(nextLink);
 	navFrame.append(prevLink);
 
+    // -- create close button
 	var close = $("<div/>").attr( 'id', 'close' ).html("<i class='icon-cancel'></i>");
 
-	navFrame.css('top', top);
-
+    // -- add close button
 	navFrame.append(close);
 
-
+    // -- append to body
 	$('body').append(navFrame);
 
-	img.src= $(that).attr('href');
-
+    // animate close button
 	animateButtonLoad($("#close"));
-
 }
 
 
 /**
+ * show next or previous image
  *
- * @param direction (prev/next)
+ * @param       direction (prev/next)
  */
 function navigateImage(direction) {
 
-	// get current image
-	var old =  $(".current");
+	// -- get old image link
+	var oldLink =  $(".current");
 
+    // -- get link to next or previous image
 	var currentLink;
 
 	if ( direction == 'prev' ) {
-
-		currentLink = old.parent().prev("div").find("a");
+		currentLink = oldLink.parent().prev("div").find("a");
 	}
 	else if ( direction == 'next' ) {
-		currentLink = old.parent().next("div").find("a");
+		currentLink = oldLink.parent().next("div").find("a");
 	}
 
-
+    // -- get href of the link
 	var currentImage = currentLink.attr("href");
 
-	if ( typeof currentImage == 'undefined' && direction == 'prev' ) {
+	if ( typeof currentImage == 'undefined' ) {
 		return;
 	}
 
-	if ( typeof currentImage == 'undefined' && direction == 'next' ) {
-		return 1;
-	}
+    // -- remove class current from old
+	oldLink.removeClass();
 
-	old.removeClass();
-
+    // -- add class current to current
 	$(currentLink).addClass("current");
 
+    // -- remove old image
 	$("#imgFrame img").remove();
 
+    // -- get styled image object
 	var img = _getImage();
 
+    // -- load image
 	img.src = currentImage;
 
+    // append to frame
 	$("#imgFrame").append(img);
 }
 
 
 /**
+ * create and style and image object
  *
- * @returns {___anonymous994_996}
+ * @returns     {Object}    image object
  */
 function _getImage() {
 
-
-	// createa new image
+	// -- createa new image
 	var img = new Image();
 
-	// apply base class
+	// -- apply base class
 	$(img).addClass('fullPic');
 
-
-	// when image is loaded ...
+	// -- when image is loaded ...
     img.onload = function() {
 
-		var screenRatio = getScreenRatio();
-		var imageRatio = getImageRatio(img);
+        // -- get screen and image ratio
+		var screenRatio = getScreenWidth() / getScreenHeight();
+		var imageRatio = img.width / img.height;
 
+        // -- get left or top margin based on image and screen orientation
     	if ( getScreenOrientation() == 'l' && screenRatio > imageRatio ) {
 
-    		// get image orientation
+        	// -- get image width for left margin
+        	var imgWidth = getScreenHeight() / img.height * img.width;
 
+        	// -- get left margin
+        	var leftPos = (getScreenWidth() - imgWidth) / 2;
 
-        	// get image width for left margin
-        	var imgWidth = getHeight() / img.height * img.width;
-
-        	// get left margin
-        	var leftPos = (getWidth() - imgWidth) / 2;
-
-        	// apply left margin
+        	// -- apply left margin
         	$(img).css( 'left', leftPos );
     	}
     	else {
 
-        	// get image height for top margin
-        	var imgHeight = getWidth() / img.width * img.height;
+        	// -- get image height for top margin
+        	var imgHeight = getScreenWidth() / img.width * img.height;
 
-        	// get left margin
-        	var topPos = (getHeight() - imgHeight) / 2;
+        	// -- get left margin
+        	var topPos = (getScreenHeight() - imgHeight) / 2;
 
-        	// apply left margin
+        	// -- apply left margin
         	$(img).css( 'top', topPos );
     	}
 
+        // -- set and define image animation
 		var anim = {opacity: 1};
 		$(img).animate( anim, 1000 );
 	};
@@ -144,53 +163,57 @@ function _getImage() {
 
 /**
  *
- * @returns {Array}
+ * @returns     {Array}     {numPics, previewWidth, gridHeight}
  */
-function getPicsPerScreen(reload) {
+function getPicsInfos(reload) {
 
 	reload = reload || 0;
 
-	// get screen size
+	// -- get screen size
 	var width = $("#frame").width();
 	var height = $(window).height();
 
-	// get grid infos
+	// -- get grid infos
 	[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = _getGridInfos(width,height);
 
-	// if we need a scrollbar
+	// -- adapt width if we need a scrollbar
 	if ( picsPerCol * previewHeight > height ) {
 
 		var scrollWidth = getScrollWidth();
 
 		if ( ! reload ) {
-
 			width -= scrollWidth;
-
 		}
+
+        // get grid infos
 		[ picsPerRow, picsPerCol, previewWidth, previewHeight ] = _getGridInfos(width,height);
 	}
 
-	// get # pics per screen
+	// -- get # pics per screen and grid height
 	var numPics = picsPerCol * picsPerRow;
 
 	var gridHeight = picsPerCol * previewHeight;
 
+    // -- return array
 	return [ numPics, previewWidth, gridHeight ];
 }
 
 
 /**
+ * load on page of preview images
  *
- * @param page
- * @param numPics
- * @param previewWidth
- * @param done
- * @returns {Number}
+ * @param       page
+ * @param       numPics
+ * @param       previewWidth
+ * @param       done
+ * @returns     {Boolean}   done
  */
 function loadPics(page, numPics, previewWidth, done) {
 
+    // -- create url
 	url = '/' + page + '/' + numPics;
 
+    // -- call url
 	$.ajax({
 		url : url,
 		type : "get",
@@ -198,18 +221,33 @@ function loadPics(page, numPics, previewWidth, done) {
 		cache : false,
 		success : function(data) {
 
+            // -- If no image show message
+            if ( page == 1 && data.length == 0) {
+
+                error = $('<div>', {class: 'error', text: "No image in images folder"})
+
+                $("#frame").html(error);
+
+                return false;
+            }
+
+            // -- check if there are more pics
 			if (data.length < numPics) {
 				done = 1;
 			}
 
+            // -- default timeout
 			var time = 100;
 
+            // -- loop images
 			$.each(data, function(k, v) {
 
 				setTimeout(function() {
 
+                    // -- create preview path
 				    var previewPath = '/images/' + v;
 
+                    // -- create image object
 				    var img = new Image();
 
 				    // create link to image
@@ -217,43 +255,47 @@ function loadPics(page, numPics, previewWidth, done) {
 				    var imgName = v.replace("prev-", "");
 					link.attr("href", "/images/" + imgName);
 
-					// put image in link
+					// -- put image in link
 					$(link).html(img);
 
 				    img.onload = function() {
 
-				    	// detect image orientation
+				    	// -- detect image orientation
 				    	if ( img.width < img.height ) {
 
-				    		// keep original pic height for top padding calculation
+				    		// -- keep original pic height for top padding calculation
 				    		var picHeight = img.height;
 
-				    		// add wrapper
+				    		// -- create and style wrapper
 				    		var wrapper = $("<div/>");
 				    		wrapper.addClass('previewWrapper');
 				    		wrapper.css('height', Math.ceil(previewWidth * 0.75)).css('width', previewWidth);
 
-				    		// get top padding
+				    		// -- get preview top padding
 				    		var topPadding = - Math.ceil((picHeight - ( previewWidth * 0.75 )) / 2);
 
+                            // -- set preview css
 				    		$(img).css('position', 'relative').css('top', topPadding ).css('width', previewWidth);
-
-				    		wrapper.append(link);
-				    		$('#frame').append(wrapper);
 				    	}
 				    	else {
 
-				    		// add wrapper
+				    		// create wrapper
 				    		var wrapper = $("<div/>");
 
 				    		$(img).css('width', previewWidth).css('height', Math.ceil(previewWidth * 0.75));
-				    		wrapper.append(link);
-				    		$('#frame').append(wrapper);
 				    	}
+
+                        // -- add link to wrapper
+                        wrapper.append(link);
+
+                        // -- add wrapper to frame
+                        $('#frame').append(wrapper);
 				    };
 
+                    // -- add css
 				    $(img).addClass('preview');
 
+                    // -- load image
 				    img.src = previewPath;
 
 				}, time += 50);
@@ -263,13 +305,15 @@ function loadPics(page, numPics, previewWidth, done) {
 			$("#frame").html('There is error while submit');
 		}
 	});
+
 	return done;
 }
 
 
 /**
+ * get scrollbar width
  *
- * @returns {Number}
+ * @returns     {Number}    scrollbarWidth
  */
 function getScrollWidth() {
 
@@ -290,10 +334,11 @@ function getScrollWidth() {
 
 
 /**
+ * get grid infos
  *
- * @param width
- * @param height
- * @returns {Array}
+ * @param       width
+ * @param       height
+ * @returns     {Array}     picsPerRow, picsPerCol, previewWidth, previewHeight
  */
 function _getGridInfos(width, height) {
 
@@ -317,12 +362,13 @@ function _getGridInfos(width, height) {
 
 
 /**
+ * get screen orientation
  *
- * @returns {String}
+ * @returns     {String}    l(andscape)|p(ortrait)
  */
 function getScreenOrientation() {
 
-  if ( getWidth() > getHeight() ) {
+  if ( getScreenWidth() > getScreenHeight() ) {
     return 'l';
   }
   return 'p';
@@ -330,22 +376,14 @@ function getScreenOrientation() {
 
 
 /**
+ * get image orientation
  *
- * @returns {Number}
+ * @param       image
+ * @returns     {String}    l(andscape)|p(ortrait)
  */
-function getScreenRatio() {
-	return getWidth() / getHeight();
-}
+function getImageOrientation(image) {
 
-
-/**
- *
- * @param item
- * @returns {String}
- */
-function getImageOrientation(item) {
-
-	if ( item.width > item.height ) {
+	if ( image.width > image.height ) {
 		return 'l';
 	}
 	return 'p';
@@ -353,36 +391,30 @@ function getImageOrientation(item) {
 
 
 /**
+ * get screen width
  *
- * @param item
- * @returns {Number}
+ * @returns     {Interger}
  */
-function getImageRatio(item) {
-	return item.width / item.height;
+function getScreenWidth() {
+    console.log($(window).width());
+    return $(window).width();
 }
 
 
 /**
- *
- * @returns
+* get screen height
+*
+* @returns     {Interger}
  */
-function getWidth() {
- return $(window).width();
+function getScreenHeight() {
+    return $(window).height();
 }
 
 
 /**
+ * animate help button hover
  *
- * @returns
- */
-function getHeight() {
-  return $(window).height();
-}
-
-
-/**
- *
- * @param button
+ * @param       button
  */
 function animateButtonLoad(button) {
 
