@@ -1,17 +1,14 @@
 # Symfony directories
 vendor/*
+
 var/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
 
 # app files
 web/images/*
 !web/images/.gitkeep
+
 #compass
 web/.sass-cache/
-# Configuration files
 
-# eclipse fjles
-.buildpath
-.project
-.settings/
-
-/vendor/
