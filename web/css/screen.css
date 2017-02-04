@@ -259,26 +259,32 @@ a.prev {
 }
 
 /* line 170, ../sass/screen.scss */
-table.error {
+.error {
   width: 100%;
-  font-size: 200%;
   font-family: 'Lato', sans-serif;
   margin-top: 150px;
-  border: 1px solid red;
 }
 
-/* line 178, ../sass/screen.scss */
+/* line 176, ../sass/screen.scss */
+div.error {
+  font-size: 200%;
+  position: absolute;
+  text-align: center;
+}
+
+/* line 182, ../sass/screen.scss */
 table.error td {
   text-align: center;
   padding: 5px 0;
+  font-size: 200%;
 }
 
-/* line 183, ../sass/screen.scss */
+/* line 188, ../sass/screen.scss */
 .errorItem {
   color: #fccc00;
 }
 
-/* line 187, ../sass/screen.scss */
+/* line 192, ../sass/screen.scss */
 a, a:visited {
   color: #fccc00;
 }

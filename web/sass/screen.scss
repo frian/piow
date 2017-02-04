@@ -167,17 +167,22 @@ a.prev {
 
 .piow-cell h1 { font-size : 200%; font-weight : 300; margin : 10px 0; }
 
-table.error {
+.error {
     width: 100%;
-    font-size : 200%;
     font-family: 'Lato', sans-serif;
     margin-top: 150px;
-    border: 1px solid red;
+}
+
+div.error {
+    font-size : 200%;
+    position: absolute;
+    text-align: center;
 }
 
 table.error td {
     text-align: center;
     padding: 5px 0;
+    font-size : 200%;
 }
 
 .errorItem {
