@@ -97,8 +97,19 @@ function navigateImage(direction) {
     // -- add class current to current
 	$(currentLink).addClass("current");
 
+
+    $("#imgFrame img").animate({
+        opacity: 0,
+    }, 1000, function() {
+        // Animation complete.
+        $("#imgFrame img").remove();
+        $("#imgFrame").append(img);
+    });
+
+
+
     // -- remove old image
-	$("#imgFrame img").remove();
+	// $("#imgFrame img").remove();
 
     // -- get styled image object
 	var img = _getImage();
@@ -107,7 +118,7 @@ function navigateImage(direction) {
 	img.src = currentImage;
 
     // append to frame
-	$("#imgFrame").append(img);
+	// $("#imgFrame").append(img);
 }
 
 
@@ -157,7 +168,7 @@ function _getImage() {
 
         // -- set and define image animation
 		var anim = {opacity: 1};
-		$(img).animate( anim, 1000 );
+		$(img).delay(1000).animate( anim, 1000);
 	};
 
     return img;
