@@ -30,6 +30,9 @@ function showImage(imagePath) {
 	// -- put image in frame and append to body
 	frame.html(img).appendTo($('body'));
 
+    var loader = $("<div>", {'class': 'loader'});
+
+    loader.appendTo($('body'));
 
     /*
      * Create navigation frame

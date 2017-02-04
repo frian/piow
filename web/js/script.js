@@ -176,11 +176,14 @@ $(function() {
 	 *   left arrow : show previous image (37)
 	 *   x : close image frame (88)
 	 */
-	$(document).keydown( function(e) {
-        console.log(e.which);
+	$(document).on('keydown', function(e) {
+
+        // console.log(e);
+
 		if (e.which == 39) {                          // -- arrow right
 	    	navigateImage('next');
-		} else if (e.which == 37) {                   // -- arrow left
+		}
+        else if (e.which == 37) {                     // -- arrow left
 			navigateImage('prev');
 		}
 		else if (e.which == 88 || e.which == 27) {    // -- x or ESC
@@ -223,28 +226,19 @@ $(function() {
 		}
 	}
 
-
-	// function _reloadInNav(last) {
-    //     console.log("last : " + last)
-    // 	if (last == 1) {
-    //
-    // 		if ( ! done ) {
-    // 			done = loadPics(page, numPics, previewWidth, done);
-    // 			page++;
-    //
-    // 			setTimeout(function() {
-    // 				navigateImage('next');
-    // 			}, 500);
-    // 		}
-    // 	}
-	// }
-
     /**
 	 * close help
 	 */
 	function _handleClose() {
 
+        // -- remove loader
+        $(".loader").remove();
+
+        // -- remove help click listener
     	$(document).off("click","#help");
+
+        // -- remove .curent class
+        $(".current").removeClass();
 
     	$("#imgFrame").remove();
     	$("#navFrame").remove();
