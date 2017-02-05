@@ -286,7 +286,7 @@ function loadPics(page, numPics, previewWidth, done) {
 				    		wrapper.css('height', Math.ceil(previewWidth * 0.75)).css('width', previewWidth);
 
 				    		// -- get preview top padding
-				    		var topPadding = - Math.ceil((picHeight - ( previewWidth * 0.75 )) / 2);
+				    		var topPadding = - Math.ceil( (( previewWidth / 0.75 ) - (picHeight * 0.75) ) / 2);
 
                             // -- set preview css
 				    		$(img).css('position', 'relative').css('top', topPadding ).css('width', previewWidth);

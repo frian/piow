@@ -142,6 +142,7 @@ $(function() {
 			}
 
 			$( "#frame" ).empty();
+
 			done = 0;
 			page = 1;
 
