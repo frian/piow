@@ -20,7 +20,7 @@ $(function() {
 
     	e.preventDefault();
     	imageLink.addClass('current'); // empty class used to find next and previous image
-    	disableScroll();
+    	disableScroll.on();
     	showImage(imageLink.attr('href'));
 
     	// remove help mouse hover events
@@ -146,14 +146,14 @@ $(function() {
 			done = 0;
 			page = 1;
 
-			enableScroll();
+			disableScroll.off();
 
 			_init("reload");
 
 			if ( imageOn ) {
 
 				setTimeout(function() {
-					disableScroll();
+					disableScroll.on();
 				}, 100);
 
 				var img = _getImage("reload");
@@ -244,7 +244,7 @@ $(function() {
     	$("#imgFrame").remove();
     	$("#navFrame").remove();
 
-    	enableScroll();
+    	disableScroll.off();
 
 		setTimeout(function() {
 			addHelpHoverHandler();
